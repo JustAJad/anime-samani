@@ -28,16 +28,13 @@ afficher un avertissement. Le code source et les sommes SHA-256 sont aussi fourn
 
 ## Ce qu’il y a dans l’app
 
-- Des **favoris réservés aux animes**, avec leurs couvertures et une bannière pour reprendre le dernier épisode.
-- Des **fonds image ou vidéo**, avec flou, luminosité et transparence réglables.
-- Quelques **palettes de couleurs**, dont le dégradé pêche–rose des logos.
-- Un **mode cinéma pendant les épisodes**, le plein écran et un accès rapide avec `Ctrl + K` (clique à côté pour le fermer).
-- Une **présence Discord** avec le titre et l’épisode, si tu veux les partager.
-- Une **intro au démarrage**, que tu peux désactiver, et un **guide au premier lancement** que tu peux passer.
-- Le **français, l’anglais et le japonais**, au choix dans les réglages.
-- **Beckman** pour les titres et les boutons, avec une police plus lisible pour le texte.
+- La fonctionalité des **favoris**, avec leurs couvertures et une bannière pour reprendre le dernier épisode.
+- Des **fonds image ou vidéo**, avec flou, luminosité et transparence.
+- Quelques **palettes de couleurs**, dont le dégradé pêche–rose du thème Samani.
+- Un **mode cinéma**, le plein écran et un accès rapide avec `Ctrl + K` (cliquer à côté pour le fermer).
+- Une **présence Discord** mise à jour avec le titre et l’épisode, si tu veux les partager.
 - **Reprendre** pour rouvrir le dernier épisode, avec la position sauvegardée quand le lecteur le permet.
-- Les **mises à jour dans l’app** avec Setup : téléchargement, puis redémarrage pour les appliquer.
+- Les **mises à jour dans l’app** avec la version **Setup**.
 
 ![Les réglages de Samani](assets/img/readme/samani-personalization.png)
 
@@ -123,13 +120,11 @@ Les fichiers arrivent dans `dist/`.
 
 ---
 
-Fait avec ❤️ par [Just A Jad](https://github.com/JustAJad). Grand merci à
+Fait avec ❤️ par [Just A Jad](https://github.com/JustAJad). Un grand merci à
 [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) pour l’app
-d’origine et à [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
-pour le travail de son propre fork.
+d’origine, [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
+pour le travail de son propre fork et à [Bourinou](https://github.com/Bourinou) pour sa contribution dans les domaines configurables, les corrections de ressources et la réorganisation du code !
 
-Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code, intégrés depuis sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2).
-
-Discord : **justajade**. Merci aussi à l’équipe [Anime Sama](https://anime-sama.to/) pour le site et son travail !
+***Discord : justajade***. Merci aussi à l’équipe [Anime Sama](https://anime-sama.to/) pour le site et son travail !
 
 [Licence MPL-2.0](LICENSE). ***Samani est un projet indépendant non affilié à Anime Sama et Discord.***
