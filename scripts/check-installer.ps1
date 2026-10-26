@@ -1,11 +1,11 @@
 $ErrorActionPreference = 'Stop'
 $installer = Join-Path $PWD 'dist/Anime-Samani-Setup-x64.exe'
 $installDir = Join-Path $env:RUNNER_TEMP 'samani-registration-check'
-$process = Start-Process -FilePath $installer -ArgumentList "/S /D=$installDir" -Wait -PassThru
+$process = Start-Process -FilePath $installer -ArgumentList "/S /currentuser /D=$installDir" -Wait -PassThru
 if ($process.ExitCode -ne 0) { throw "Installer exited with $($process.ExitCode)" }
 try {
   $entry = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' |
-    Where-Object { $_.InstallLocation -and $_.InstallLocation.TrimEnd('\') -eq $installDir.TrimEnd('\') }
+    Where-Object { $_.UninstallString -and $_.UninstallString.IndexOf($installDir, [System.StringComparison]::OrdinalIgnoreCase) -ge 0 }
   if (@($entry).Count -ne 1) { throw 'Expected one uninstall registration for the test install' }
   if ($entry.DisplayName -ne 'Anime Samani') { throw "Unexpected appwiz name: $($entry.DisplayName)" }
   if ($entry.Publisher -ne 'Just A Jad') { throw "Unexpected publisher: $($entry.Publisher)" }
