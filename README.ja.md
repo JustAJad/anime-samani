@@ -27,16 +27,13 @@ Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama
 
 ## アプリでできること
 
-- **アニメ専用のお気に入り**にカバー画像を表示し、バナーから最後のエピソードを再開できます。
-- **画像や動画の背景**に、ぼかし・明るさ・透明度を設定できます。
-- ロゴに合わせたピーチ〜ピンクのグラデーションなど、**配色テーマ**を選べます。
-- エピソードのページ専用の**シネマモード**、全画面表示、`Ctrl + K` のクイックアクセス。外側をクリックすると閉じます。
-- 共有したい場合は、作品名やエピソードを**Discord のアクティビティ**に表示できます。
-- 起動時の**イントロ**は設定でオフにできます。**初回ガイド**はスキップできます。
-- **フランス語・英語・日本語**のインターフェース。
-- 見出しとボタンは **Beckman**、本文は読みやすい通常のフォントで表示します。
+- カバー画像付きの**お気に入り**と、最後のエピソードを再開するバナー。
+- ぼかし・明るさ・透明度を設定できる**画像や動画の背景**。
+- Samani テーマのピーチ〜ピンクのグラデーションなど、いくつかの**配色テーマ**。
+- **シネマモード**、全画面表示、`Ctrl + K` のクイックアクセス。外側をクリックすると閉じます。
+- 更新された **Discord のアクティビティ表示**で、共有したい場合は作品名やエピソードを表示できます。
 - **再開**ボタンで最後に見たエピソードへ。対応プレイヤーでは再生位置も復元します。
-- Setup 版は**アプリ内で更新**をダウンロードし、再起動して適用できます。
+- **Setup** 版の**アプリ内更新**。
 
 ![Samani の設定](assets/img/readme/samani-personalization-en.png)
 
@@ -92,10 +89,11 @@ npm start
 
 ---
 
-[Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。元のアプリを作った [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) と、自身のフォークをメンテナンスしてきた [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop) に感謝！
+[Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。元のアプリを作った
+[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop)、自身のフォークで取り組んできた
+[raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)、そしてドメイン設定・リソース修正・コード整理に貢献した
+[Bourinou](https://github.com/Bourinou) に心から感謝！
 
-ドメイン設定、リソース修正、コード整理を提供した [Bourinou](https://github.com/Bourinou) に感謝！ [PR #2](https://github.com/JustAJad/anime-samani/pull/2) から統合しました。
-
-Discord：**justajade**。[Anime Sama](https://anime-sama.to/)のサイト制作・運営チームにも感謝！
+***Discord：justajade***。[Anime Sama](https://anime-sama.to/)のサイト制作・運営チームにも感謝！
 
 [MPL-2.0 ライセンス](LICENSE)。***Samani は独立したプロジェクトで、Anime Sama および Discord の公式アプリではありません。***
