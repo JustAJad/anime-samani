@@ -32,7 +32,7 @@ if (
 if (existing) {
   if (repository !== 'JustAJad/anime-samani') throw new Error('Unexpected rebuild repository');
   // Upload payloads and matching source first; publish the update manifest last.
-  const manifest = files.find(file => file.endsWith('/latest.yml'));
+  const manifest = files.find(file => file === join('release-assets', 'latest.yml'));
   if (!manifest) throw new Error('Rebuilt release requires updater metadata');
   execFileSync(
     'gh',

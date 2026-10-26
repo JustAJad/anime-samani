@@ -52,8 +52,8 @@ test('an existing release stays untouched unless the 1.1 rebuild is explicitly s
   assert.throws(() => run('1.2.0'), /explicitly requested/);
   const calls = run('1.1.0');
   assert.equal(calls.length, 3);
-  assert.ok(!calls[0].includes('release-assets/latest.yml'));
-  assert.ok(calls[1].includes('release-assets/latest.yml'));
+  assert.ok(!calls[0].includes(require('node:path').join('release-assets', 'latest.yml')));
+  assert.ok(calls[1].includes(require('node:path').join('release-assets', 'latest.yml')));
   assert.equal(calls[2][1], 'edit');
   assert.ok(!calls.some(args => args.includes('create') || args.includes('--force')));
 });
