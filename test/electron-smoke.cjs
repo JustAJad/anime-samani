@@ -148,7 +148,10 @@ require('../index');
     await ui('document.querySelector(".brand img").getAttribute("src")'),
     '../assets/branding/mark.png'
   );
-  assert.equal(await ui('document.querySelector("#version").textContent'), '1.0');
+  assert.equal(
+    await ui('document.querySelector("#version").textContent'),
+    require('../lib/version').displayVersion(require('../package.json').version)
+  );
   assert.equal(
     await ui(
       'Boolean(document.querySelector(".toolbar-actions .icon-button[data-action=cinema]"))'

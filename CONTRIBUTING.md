@@ -40,7 +40,7 @@ Mettez à jour le changelog et les notes de version dans les trois langues.
 Le workflow Windows teste et construit l’app à chaque push sur `main`, puis
 publie les nouveaux numéros de version avec le code source, les crédits et les sommes SHA-256.
 Les versions de `package.json` et `package-lock.json` sont explicites : un
-rebuild de V1 reste en 1.0.0. Une publication portant un numéro déjà utilisé
+rebuild de la 1.1 reste en 1.1.0. Une publication portant un numéro déjà utilisé
 ne remplace pas les fichiers existants. Préparez un build de test avant toute
 modification d’une version publiée.
 Le jeton automatique de GitHub suffit.
