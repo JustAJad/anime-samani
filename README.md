@@ -7,7 +7,7 @@
 
 Anime Samani est un fork de l'application de [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop), qui te donne plus de fonctionnalités !
 
-## Nouveautés de la 1.1
+## Nouvelles version (1.1) sortie !
 
 Une adresse de site configurable, moins de publicités, tes couleurs dans le site,
 et **des optimisations et des bugs corrigés** pour mieux gérer les ressources de l’app.
