@@ -2,7 +2,7 @@ name: Sync 1.1 release notes
 on:
   push:
     branches: [main]
-    paths: [docs/releases/1.1.0.md, .github/workflows/release-notes.yml]
+    paths: [RELEASE-NOTES.md, RELEASE-NOTES.ja.md, scripts/sync-release-notes.cjs, .github/workflows/release-notes.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,7 +20,10 @@ jobs:
         with:
           persist-credentials: false
           ref: main
-      - name: Update the release description from the versioned changelog
-        run: gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" --notes-file docs/releases/1.1.0.md
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Sync public release text and its text attachment
+        run: node scripts/sync-release-notes.cjs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
