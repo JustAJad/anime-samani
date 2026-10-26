@@ -41,3 +41,28 @@ test('packaging keeps Setup stable while Portable and ZIP remain versioned', () 
   assert.ok(config.portable.artifactName.includes('${version}'));
   assert.ok(config.win.artifactName.includes('${version}'));
 });
+
+test('Windows registration uses the plain app name and Just A Jad with lossless packaging', () => {
+  const vm = require('node:vm');
+  const { readFileSync } = require('node:fs');
+  let config;
+  const pkg = require('../package.json');
+  const builder = {
+    Platform: { WINDOWS: { createTarget: () => [] } },
+    Arch: { x64: 'x64' },
+    build: options => {
+      config = options.config;
+      return Promise.resolve();
+    },
+  };
+  vm.runInNewContext(readFileSync(require.resolve('../build'), 'utf8'), {
+    require: name => (name === 'electron-builder' ? builder : pkg),
+    process: { argv: ['--installer'] },
+    console,
+  });
+  assert.equal(pkg.version, '1.1.0');
+  assert.equal(pkg.author.name, 'Just A Jad');
+  assert.equal(config.nsis.uninstallDisplayName, 'Anime Samani');
+  assert.equal(config.compression, 'maximum');
+  assert.equal(config.electronLanguages, undefined, 'all Chromium locales are retained');
+});
