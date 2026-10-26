@@ -9,17 +9,11 @@ Anime Samani est un fork de l'application de [AlexAnimateMp4](https://github.com
 
 ## Nouveautés de la 1.1
 
-- **Adresse du site configurable** : recherche sur anime-sama.pw au lancement, toutes les 24 h et après une erreur de chargement. Samani propose l’adresse ; tu choisis quand l’appliquer. La saisie manuelle reste disponible.
-- **Moins de publicités** : emplacements connus masqués, requêtes vers les régies connues filtrées et redirections publicitaires bloquées. Les lecteurs ne sont pas bloqués en bloc.
-- **Tes couleurs dans le site** : fonds et panneaux compatibles suivent la personnalisation de Samani.
-- **De l'optimisation et des bugs squashés** :
-- Suppression des anciens fonds
-- 500 positions de lecture maximum
-- Moins d’écritures pendant le redimensionnement et un injection unique de la police.
+Une adresse de site configurable, moins de publicités, tes couleurs dans le site,
+et **des optimisations et des bugs corrigés** pour mieux gérer les ressources de l’app.
+Les fonds personnalisés restent disponibles : seul le stockage des copies inutilisées est nettoyé.
 
-Les options **Chercher automatiquement les nouvelles adresses**, **Masquer les publicités** et **Appliquer mes couleurs au site** sont dans **Paramètres → Général**. Le filtre ne va pas garantir de supprimer toutes les publicités ; désactive-le si un lecteur ne fonctionne plus. Le thème des lecteurs externes reste indépendant.
-
-[Guide de la version 1.1](docs/releases/1.1.0.md) · [Documentation technique](docs/DEVELOPMENT.md)
+[Liste complète des changements de la 1.1](docs/releases/1.1.0.md#français) · [Release et téléchargements](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
 
 ## Installation
 
@@ -61,6 +55,11 @@ Si Anime Sama change d’adresse, va dans **Paramètres → Général → Domain
 saisis le nouveau domaine ou clique sur **Chercher sur anime-sama.pw** pour choisir
 dans la liste officielle. Tes favoris et reprises suivent automatiquement.
 
+Les options **Chercher automatiquement les nouvelles adresses**, **Masquer les publicités**
+et **Appliquer mes couleurs au site** sont dans **Paramètres → Général**.
+Le filtre ne supprime pas toutes les publicités ; désactive-le si un lecteur ne fonctionne plus.
+Le thème des lecteurs externes reste indépendant.
+
 Pour **Discord**, ouvre le client de bureau, puis Samani. L’application est déjà
 configurée : pas besoin de jeton ni de mot de passe. Dans les réglages, tu peux
 masquer le titre et l’épisode, ou désactiver la présence.
@@ -98,7 +97,7 @@ peut demander l’autorisation d’ouvrir l’app.*
 *Avec **Setup**, Samani cherche les nouvelles versions et propose de les télécharger.
 Tu peux aussi vérifier dans **Paramètres → Mise à jour**, puis
 redémarrer pour installer. Portable et ZIP se remplacent manuellement. Les nouvelles
-versions arrivent dans l’app une fois qu'elles sont terminée sur GitHub.*
+versions arrivent dans l’app une fois leur construction terminée sur GitHub.*
 
 *Le choix de langue concerne l’app. Les textes et vidéos d’Anime Sama gardent la
 langue du site. Une vraie erreur HTTP 500 ou un lecteur indisponible peut venir

@@ -1,6 +1,6 @@
 # Anime Samani 1.1
 
-[日本語](RELEASE-NOTES.ja.md)
+[Liste complète / Full changelog / 全変更履歴](https://github.com/JustAJad/anime-samani/blob/main/docs/releases/1.1.0.md) · [日本語](https://github.com/JustAJad/anime-samani/blob/main/RELEASE-NOTES.ja.md)
 
 ## Français
 
@@ -8,7 +8,14 @@
 - Favoris, reprises, suivi des épisodes et liens Discord suivent le domaine sélectionné. La page de relais accepte les domaines officiels connus.
 - Filtre des régies publicitaires connues, masquage des emplacements publicitaires et blocage des popups et redirections automatiques externes.
 - Couleurs et transparence de Samani sur les fonds et panneaux compatibles du site. Options de filtre et de thème dans Paramètres → Général.
-- Anciens fonds supprimés, positions de lecture limitées à 500, moins d’écritures des dimensions de fenêtre, police injectée une seule fois par page.
+- **Optimisations et corrections de bugs :**
+  - Nettoyage des copies de fonds remplacés stockées par Samani, ainsi que des copies inutilisées laissées par les versions précédentes. Les fonds personnalisés restent disponibles ; le fond actuel et les fichiers originaux sont conservés.
+  - Positions de lecture limitées aux 500 épisodes les plus récents.
+  - Dimensions de fenêtre enregistrées après le redimensionnement, plutôt qu’à chaque pixel.
+  - Police injectée une seule fois par page et remplacement des feuilles de style sans accumulation.
+  - Redirections externes automatiques et popups bloquées ; ouvertures externes rapprochées limitées.
+- Correction du suivi des épisodes et des favoris après un changement de domaine.
+- Lecture de la liste d’adresses compatible avec différents ordres et styles d’attributs HTML du portail. Recherches simultanées regroupées, résultats récents réutilisés et dernière liste conservée en cas d’échec.
 - Processus principal organisé en modules, ESLint et Prettier, documentation revue dans les trois langues et nouveaux tests.
 
 Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code dans sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2) ! Son nom est aussi lié dans les remerciements de l’app.
@@ -19,7 +26,14 @@ Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables
 - Favorites, resume, episode tracking and Discord links follow your selected domain. The handoff page accepts known official domains.
 - Known ad-network filtering, hidden ad slots and blocked popups and automatic external redirects.
 - Samani’s colors and transparency on supported website backgrounds and panels. Filter and theme controls in Settings → General.
-- Old backgrounds removed, saved positions capped at 500, fewer window-size writes and one font injection per page.
+- **Optimizations and bug fixes:**
+  - Cleanup of replaced background copies stored by Samani, including unused copies left by earlier versions. Custom backgrounds remain available; your current background and original files are retained.
+  - Saved playback positions capped at the 500 most recent episodes.
+  - Window dimensions saved after resizing settles, rather than at every pixel.
+  - One font injection per page and stylesheet replacement without accumulation.
+  - Blocked automatic external redirects and popups; rapid external openings are throttled.
+- Fixed episode tracking and favorites after switching domains.
+- Portal address parsing supports different HTML attribute order and quoting. Concurrent searches share one request, recent results are reused and the last list is preserved if a search fails.
 - Modular main process, ESLint and Prettier, refreshed documentation in three languages and new regression tests.
 
 Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and the refactor in [PR #2](https://github.com/JustAJad/anime-samani/pull/2)! His username also links to his profile in the app’s thanks.
