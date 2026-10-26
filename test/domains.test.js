@@ -51,6 +51,10 @@ test('portal parsing keeps the official list and ignores scam or foreign domains
     official: 'anime-sama.si',
     domains: ['anime-sama.si', 'anime-sama.to', 'anime-sama.fr'],
   });
+  assert.equal(
+    parsePortal("<a href='https://anime-sama.si' class='btn-primary'>Go</a>").official,
+    'anime-sama.si'
+  );
   assert.deepEqual(parsePortal('<p>nothing</p>'), { official: null, domains: [] });
 });
 

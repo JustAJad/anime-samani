@@ -27,3 +27,9 @@ Node.js 24 と `npm ci` を使います。`npm test` は ESLint と Prettier の
 アプリ内更新は Setup 版が対象です。関連する機能を変えたときは、実際のサイト、動画プレイヤー、Discord、以前のインストールからの更新も確認してください。
 
 RPCリンクの動作とGitHub Pagesへの公開は[こちら](docs/LINKS.md)を参照してください。
+
+## 貢献者と権限
+
+[PR #2](https://github.com/JustAJad/anime-samani/pull/2) を提供した [Bourinou](https://github.com/Bourinou) に感謝します。フォークから `main` に PR を送れば、書き込み権限なしで貢献できます。クレジットへの記載はリポジトリ権限を与えません。マージと公開は所有者が決めます。
+
+構成・テスト・権限の選択肢は [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) にあります。1.1 は両方の package ファイルで `1.1.0` を使います。再ビルドでも番号を変えず、公開済みのリリースを置き換えません。

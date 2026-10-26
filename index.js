@@ -16,6 +16,8 @@ const { Presence } = require('./lib/presence');
 const { createContext } = require('./lib/main/context');
 const { installSite } = require('./lib/main/site');
 const { installDesktop } = require('./lib/main/desktop');
+const { installDiscovery } = require('./lib/main/discovery');
+const { installAdFilter } = require('./lib/ads');
 const { installMenus } = require('./lib/main/menu');
 
 const BACKGROUND = '#0b0c10';
@@ -164,6 +166,8 @@ async function startup() {
   });
   ctx.presence.on('status', () => ctx.send());
   installSite(ctx);
+  installDiscovery(ctx);
+  installAdFilter(ctx);
   installDesktop(ctx);
   installMenus(ctx);
 
@@ -190,6 +194,7 @@ async function startup() {
     else app.setAsDefaultProtocolClient(pkg.protocol);
   }
   ctx.updateRpc();
+  ctx.discoverDomain();
   if (pendingAppLink) dispatchAppLink(pendingAppLink);
   else ctx.navigate(siteUrl());
 

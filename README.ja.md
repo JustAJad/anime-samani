@@ -7,6 +7,17 @@
 
 Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) のデスクトップアプリに便利な機能を加えたフォークです！
 
+## 1.1 の新機能
+
+- **サイトのアドレス設定**：起動時、24時間ごと、読み込みエラー時に anime-sama.pw を確認します。候補を提案し、変更は利用者が選びます。手動入力も可能です。
+- **広告の削減**：既知の広告枠と広告ネットワークをフィルタリングし、外部への自動リダイレクトをブロックします。プレイヤーのフレームを一律にブロックしません。
+- **サイトの配色**：対応する背景・パネルに Samani のテーマを適用します。
+- **リソース管理**：古い背景を削除し、再生位置は500件まで保存。ウィンドウサイズの保存回数を減らし、フォントの重複読み込みを防ぎます。
+
+設定 → 一般で自動アドレス確認、広告の非表示、サイトへの配色適用を切り替えられます。すべての広告を除去できるわけではありません。プレイヤーに問題がある場合は広告フィルターをオフにしてください。外部プレイヤーの配色は変更しません。
+
+[1.1 ガイド](docs/releases/1.1.0.md) · [技術資料](docs/DEVELOPMENT.md)
+
 ## インストール
 
 **Windows 10 / 11 の64ビット版**に対応しています。[ダウンロードページ](https://github.com/JustAJad/anime-samani/releases)の **Assets** から選んでください。
@@ -15,7 +26,7 @@ Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama
 - **Portable**：インストールせずに起動できます。
 - **Windows.zip**：展開して `ANIME_SAMANI.exe` を起動します。
 
-V1 は最初の安定版です。実行ファイルは未署名のため、Windows が警告を表示する場合があります。ソースコードと SHA-256 チェックサムも配布しています。
+現在のバージョンは **1.1** です。実行ファイルは未署名のため、Windows が警告を表示する場合があります。ソースコードと SHA-256 チェックサムも配布しています。
 
 ## アプリでできること
 
@@ -81,6 +92,8 @@ npm start
 ---
 
 [Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。元のアプリを作った [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) と、自身のフォークをメンテナンスしてきた [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop) に感謝！
+
+ドメイン設定、リソース修正、コード整理を提供した [Bourinou](https://github.com/Bourinou) に感謝！ [PR #2](https://github.com/JustAJad/anime-samani/pull/2) から統合しました。
 
 Discord：**justajade**。[Anime Sama](https://anime-sama.to/)のサイト制作・運営チームにも感謝！
 

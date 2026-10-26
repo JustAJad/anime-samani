@@ -157,5 +157,11 @@
   "domainOfficial": "公式リンク",
   "invalidDomain": "Anime Sama のドメインではありません（例：anime-sama.si）。",
   "domainMoved": "Anime Sama のアドレスが変わりました",
-  "useDomain": "このドメインを使う"
+  "useDomain": "このドメインを使う",
+  "autoDomain": "新しいアドレスを自動確認",
+  "blockAds": "広告を非表示",
+  "websiteTheme": "サイトにテーマの色を適用",
+  "integrationNote": "起動時と24時間ごとに確認します。ドメインは自動変更しません。既知の広告枠を非表示にします。プレイヤーに問題が出た場合はオフにしてください。ポップアップは引き続きブロックします。",
+  "domainSuggested": "anime-sama.pw が案内するアドレス：",
+  "creditBourinou": "ドメイン設定、リソースの問題の修正、コードの整理に感謝！"
 }

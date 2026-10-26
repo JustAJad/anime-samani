@@ -2,22 +2,9 @@
 
 [日本語](CHANGELOG.ja.md)
 
-## Non publié / Unreleased
+## 1.1.0
 
-Les fonds remplacés sont supprimés du disque (et les anciens restes nettoyés au
-démarrage), l’historique des positions est plafonné à 500 épisodes, la police est
-injectée une seule fois par page et la taille de fenêtre n’est plus écrite à chaque
-pixel. Les redirections externes en rafale sont limitées. Code découpé en modules,
-ESLint + Prettier, nouveaux tests.
-Nouveau réglage **Domaine du site** (Paramètres → Général) : saisie manuelle ou choix
-dans la liste d’anime-sama.pw ; favoris, reprises et liens Discord suivent le domaine,
-et un déménagement du site est détecté avec un bouton pour l’adopter.
-/ Replaced backgrounds are deleted (leftovers cleaned at startup), playback history is
-capped at 500 episodes, the font is injected once per page and window size is no longer
-written on every pixel. Bursts of external redirects are throttled. Code split into
-modules, ESLint + Prettier, new tests. New **Website domain** setting (Settings → General):
-type it or pick from the anime-sama.pw list; favorites, resume and Discord links follow it,
-and a site move is detected with a one-click switch.
+Domain selection and automatic discovery, ad filtering and website theme integration. Resource fixes and modular main process contributed by [Bourinou](https://github.com/Bourinou) in [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Linked contributor credits, French/English/Japanese docs and regression checks refreshed. / Domaines et détection automatique, filtre publicitaire et thème du site ; crédits et documentation mis à jour.
 
 ## 1.0.0
 

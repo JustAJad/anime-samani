@@ -24,7 +24,7 @@ const FAVORITE_SETTLE_MS = 300;
 const onSite =
   process.isMainFrame &&
   location.protocol === 'https:' &&
-  ['anime-sama.to', 'www.anime-sama.to'].includes(location.hostname);
+  /^anime-sama\.[a-z]{2,24}$/.test(location.hostname.replace(/^www\./, ''));
 
 function firstText(selectors) {
   for (const selector of selectors) {
@@ -72,6 +72,20 @@ function readPage() {
   };
 }
 
+function markAdvertisements() {
+  for (const label of document.querySelectorAll('h2,h3,h4,p,span')) {
+    if (!/^(publicité|publicite|advertisement|sponsored)$/i.test(label.textContent.trim()))
+      continue;
+    const slot = label.parentElement;
+    if (
+      slot &&
+      slot.querySelector('a[href],iframe,ins') &&
+      !slot.querySelector('video,select,form')
+    )
+      slot.setAttribute('data-samani-ad', '');
+  }
+}
+
 function installMetadata() {
   let timer;
   const report = () => {
@@ -82,6 +96,7 @@ function installMetadata() {
     node.nodeType === Node.ELEMENT_NODE &&
     (node.matches(SELECTORS.addedMetadata) || node.querySelector(SELECTORS.nestedMetadata));
   addEventListener('DOMContentLoaded', () => {
+    markAdvertisements();
     report();
     document.addEventListener('change', report, true);
     const observer = new MutationObserver(report);
@@ -89,6 +104,7 @@ function installMetadata() {
     const saved = document.querySelector(SELECTORS.savedEpisode.join(','));
     if (saved) observer.observe(saved, { childList: true, subtree: true });
     const bodyObserver = new MutationObserver(records => {
+      markAdvertisements();
       if (records.some(record => [...record.addedNodes].some(addsMetadata))) report();
     });
     if (document.body) bodyObserver.observe(document.body, { childList: true, subtree: true });

@@ -53,3 +53,9 @@ lecteurs, Discord et la mise à jour depuis une installation précédente quand
 vous modifiez ces fonctions.
 
 Les liens RPC passent par une petite page GitHub Pages. Voir [le fonctionnement et le déploiement](docs/LINKS.md).
+
+## Contributeurs et accès
+
+Merci à [Bourinou](https://github.com/Bourinou) pour sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Pour contribuer, crée un fork et ouvre une PR vers `main` : aucun droit d’écriture n’est nécessaire. Une mention dans les crédits ne donne aucun accès au dépôt. Le propriétaire garde la décision de fusionner et publier.
+
+L’architecture, les tests et les choix d’accès sont dans [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Pour la 1.1, mets `1.1.0` dans les deux fichiers de version. Un rebuild conserve ce numéro ; une version déjà publiée n’est pas remplacée.

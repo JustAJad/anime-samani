@@ -4,7 +4,7 @@
   "exeName": "ANIME_SAMANI",
   "releaseYear": "2023",
   "protocol": "anime-samani",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Anime Sama sur PC, avec des favoris, des fonds personnalisés et Discord.",
   "keywords": [
     "anime-samani",
@@ -29,6 +29,10 @@
     {
       "name": "raphael-as",
       "url": "https://github.com/raphael-as"
+    },
+    {
+      "name": "Bourinou",
+      "url": "https://github.com/Bourinou"
     }
   ],
   "files": [

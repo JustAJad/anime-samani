@@ -157,5 +157,11 @@
   "domainOfficial": "Lien officiel",
   "invalidDomain": "Ce n’est pas un domaine Anime Sama (ex. anime-sama.si).",
   "domainMoved": "Anime Sama a changé d’adresse",
-  "useDomain": "Utiliser ce domaine"
+  "useDomain": "Utiliser ce domaine",
+  "autoDomain": "Chercher automatiquement les nouvelles adresses",
+  "blockAds": "Masquer les publicités",
+  "websiteTheme": "Appliquer mes couleurs au site",
+  "integrationNote": "Recherche au lancement et toutes les 24 h, sans changer ton domaine. Le filtre masque les emplacements publicitaires connus ; désactive-le si un lecteur fonctionne mal. Les popups restent bloquées.",
+  "domainSuggested": "Adresse proposée par anime-sama.pw :",
+  "creditBourinou": "Merci pour les domaines configurables, les corrections de ressources et la réorganisation du code !"
 }

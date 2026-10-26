@@ -80,7 +80,7 @@ const fixtureReady = app.whenReady().then(() => {
         headers: { 'content-type': 'text/html;charset=utf-8' },
       });
     return new Response(
-      '<!doctype html><title>Anime fixture</title><h1>Frieren</h1><select id="selectEpisodes"><option>Épisode 7</option></select><iframe src="/failed-frame"></iframe>',
+      '<!doctype html><title>Anime fixture</title><body style="background:#181b20"><main id="main" style="background:#181b20"><h1>Frieren</h1><div class="asn-ad" id="fixture-ad">Publicité <a href="https://example.test/ad">Sponsor</a></div><div class="bg-slate-900" id="fixture-card">Card</div></main><select id="selectEpisodes"><option>Épisode 7</option></select><iframe src="/failed-frame"></iframe>',
       { headers: { 'content-type': 'text/html;charset=utf-8' } }
     );
   });
@@ -262,6 +262,39 @@ require('../index');
   console.log(
     'PASS instant French/English/Japanese, bold headings/buttons, regular body and native window setting'
   );
+
+  await until(
+    async () =>
+      await content.executeJavaScript(
+        'getComputedStyle(document.querySelector("#fixture-ad")).display === "none"'
+      ),
+    'website ads hidden'
+  );
+  assert.equal(
+    await content.executeJavaScript('getComputedStyle(document.body).backgroundColor'),
+    'rgba(0, 0, 0, 0)'
+  );
+  await ui('window.samani.preferences({blockAds:false,websiteTheme:false})');
+  await until(
+    async () =>
+      await content.executeJavaScript(
+        'getComputedStyle(document.querySelector("#fixture-ad")).display !== "none"'
+      ),
+    'ad filter can be disabled'
+  );
+  assert.equal(
+    await content.executeJavaScript('getComputedStyle(document.body).backgroundColor'),
+    'rgb(24, 27, 32)'
+  );
+  await ui('window.samani.preferences({blockAds:true,websiteTheme:true})');
+  await until(
+    async () =>
+      await content.executeJavaScript(
+        'getComputedStyle(document.body).backgroundColor === "rgba(0, 0, 0, 0)"'
+      ),
+    'website theme restored'
+  );
+  console.log('PASS website theme and ad filtering can be toggled independently');
 
   dialog.showOpenDialog = async () => ({
     canceled: false,
@@ -506,6 +539,11 @@ require('../index');
     await ui('document.querySelector("[data-i18n=updates]").textContent'),
     'Mise à jour'
   );
+  await ui('document.querySelector("[data-action=bourinou]").click()');
+  await until(
+    () => openedLinks.includes('https://github.com/Bourinou'),
+    'Bourinou credit links to his profile'
+  );
   await ui('document.querySelector("[data-action=jad]").click()');
   await ui('document.querySelector("[data-action=anime-sama]").click()');
   await until(
@@ -567,6 +605,12 @@ require('../index');
       !s.loading
     );
   }, 'listed domain applied on the same page');
+  await until(
+    async () =>
+      (await bootstrap()).page.title === 'Frieren' &&
+      (await bootstrap()).page.episode === 'Épisode 7',
+    'metadata works on the new domain'
+  );
   assert.equal((await bootstrap()).preferences.domain, 'anime-sama.si');
   assert.equal((await bootstrap()).favorites[0].url, 'https://anime-sama.si/catalogue/frieren/');
   await ui('document.querySelector("#domain-input").value="not-a-site.test"');

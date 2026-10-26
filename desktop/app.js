@@ -657,9 +657,20 @@ function domains() {
   $('#scan-domains').disabled = state.domainScanning;
   $('#domain-scan-status').textContent = state.domainScanning
     ? t('domainScanning')
-    : scan
-      ? `${t('domainLastScan')} ${new Date(scan.ts).toLocaleString(state.preferences.language)}`
-      : '';
+    : state.domainScanError
+      ? t('domainScanError')
+      : scan
+        ? `${t('domainLastScan')} ${new Date(scan.ts).toLocaleString(state.preferences.language)}`
+        : '';
+  const suggested = scan?.results?.find(
+    result => result.domain === scan.official && ['online', 'redirect'].includes(result.status)
+  )?.domain;
+  const showSuggestion = Boolean(suggested && suggested !== state.domain);
+  $('#domain-suggestion').textContent = showSuggestion
+    ? `${t('domainSuggested')} ${suggested}`
+    : '';
+  $('#use-suggested-domain').hidden = !showSuggestion;
+  $('#use-suggested-domain').onclick = () => setDomain(suggested);
   const key = JSON.stringify([scan?.ts, state.domain, state.preferences.language]);
   if (key === domainKey) return;
   domainKey = key;

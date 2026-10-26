@@ -31,3 +31,5 @@ bibliothèques gardent leurs licences. Le site Anime Sama et Discord restent des
 services indépendants du projet.
 The original history and [MPL-2.0 license](LICENSE) are preserved. Dependencies keep
 their own licenses. Anime Sama and Discord are separate services.
+
+- **[Bourinou](https://github.com/Bourinou)** : domaines configurables et découverte sur anime-sama.pw, corrections des ressources et refonte du processus principal ([PR #2](https://github.com/JustAJad/anime-samani/pull/2)). / Configurable domains and discovery, resource fixes and main-process refactor.

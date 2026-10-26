@@ -36,7 +36,7 @@ Never commit `node_modules`, `dist` or personal profiles.
 Update the changelog and release notes in all three languages. Each push to
 `main` runs the Windows tests and build, then publishes a stable release with
 matching source, credits and SHA-256 checksums when the release version is new.
-Package versions are explicit: rebuilding V1 keeps 1.0.0. Set the same version in
+Package versions are explicit: rebuilding 1.1 keeps 1.1.0. Set the same version in
 `package.json` and `package-lock.json` when preparing a future release. Existing
 releases are not overwritten; prepare a test build before changing a published
 release. GitHub’s automatic token is sufficient.
@@ -48,3 +48,9 @@ In-app updates require Setup. Also check the live website, players, Discord and
 updates from a previous installation when changing those features.
 
 RPC links use a small GitHub Pages handoff. See [link handling and deployment](docs/LINKS.md).
+
+## Contributors and access
+
+Thanks to [Bourinou](https://github.com/Bourinou) for [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Contribute through a fork and a PR to `main`; write access is unnecessary. Credits do not grant repository permissions. The owner decides what is merged and published.
+
+See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for architecture, tests and access choices. Version 1.1 uses `1.1.0` in both package files. Rebuilds keep that number; published releases are not replaced.

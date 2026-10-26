@@ -157,5 +157,11 @@
   "domainOfficial": "Official link",
   "invalidDomain": "This is not an Anime Sama domain (e.g. anime-sama.si).",
   "domainMoved": "Anime Sama has moved",
-  "useDomain": "Use this domain"
+  "useDomain": "Use this domain",
+  "autoDomain": "Automatically check for new addresses",
+  "blockAds": "Hide advertisements",
+  "websiteTheme": "Apply my colors to the website",
+  "integrationNote": "Checks at startup and every 24 hours, without changing your domain. The filter hides known ad slots; disable it if a player stops working. Popups stay blocked.",
+  "domainSuggested": "Address suggested by anime-sama.pw:",
+  "creditBourinou": "Thanks for configurable domains, resource fixes and reorganizing the code!"
 }

@@ -2,6 +2,12 @@
 
 [Français / English](ROADMAP.md) · [日本語 README](README.ja.md)
 
+## 1.1
+
+- [x] ドメイン設定・自動確認。
+- [x] 広告フィルターとサイトのテーマ。
+- [x] リソース修正とコード整理。[Bourinou](https://github.com/Bourinou) に感謝！
+
 ## V1 でできたこと
 
 - [x] フランス語・英語・日本語のインターフェース。
