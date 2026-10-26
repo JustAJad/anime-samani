@@ -1,6 +1,6 @@
-# Anime Samani 1.1
+# Changements / Changelog
 
-[Liste complète / Full changelog / 全変更履歴](https://github.com/JustAJad/anime-samani/blob/main/docs/releases/1.1.0.md) · [日本語](https://github.com/JustAJad/anime-samani/blob/main/RELEASE-NOTES.ja.md)
+[日本語](https://github.com/JustAJad/anime-samani/blob/main/docs/releases/1.1.0.ja.md)
 
 ## Français
 
@@ -18,7 +18,9 @@
 - Lecture de la liste d’adresses compatible avec différents ordres et styles d’attributs HTML du portail. Recherches simultanées regroupées, résultats récents réutilisés et dernière liste conservée en cas d’échec.
 - Processus principal organisé en modules, ESLint et Prettier, documentation revue dans les trois langues et nouveaux tests.
 
-Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code dans sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2) ! Son nom est aussi lié dans les remerciements de l’app.
+Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code dans sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2) !
+
+**Mise à jour depuis la 1.0 :** le profil, les favoris et le fond actuel sont conservés. La recherche d’adresse propose un domaine ; tu choisis quand l’appliquer. Setup propose les mises à jour intégrées ; Portable et ZIP se remplacent manuellement.
 
 ## English
 
@@ -36,12 +38,14 @@ Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables
 - Portal address parsing supports different HTML attribute order and quoting. Concurrent searches share one request, recent results are reused and the last list is preserved if a search fails.
 - Modular main process, ESLint and Prettier, refreshed documentation in three languages and new regression tests.
 
-Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and the refactor in [PR #2](https://github.com/JustAJad/anime-samani/pull/2)! His username also links to his profile in the app’s thanks.
+Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and the refactor in [PR #2](https://github.com/JustAJad/anime-samani/pull/2)!
 
-## Installation / Installing
+**Upgrading from 1.0:** your profile, favorites and current background are retained. Domain discovery suggests an address; you choose when to apply it. Setup supports in-app updates; Portable and ZIP need manual replacement.
 
-Windows 10/11 x64 : **Setup** pour les mises à jour intégrées / for in-app updates. Portable et ZIP : mise à jour manuelle / manual updates. Source et SHA-256 inclus / included. Les fichiers restent non signés / downloads remain unsigned.
+## À savoir / Limitations
 
-Le filtrage ne supprime pas toutes les pubs ; désactive-le si un lecteur ne fonctionne plus. Le thème et la reprise dépendent du site et du lecteur. / Filtering cannot remove every ad; turn it off if a player stops working. Theme and resume support depend on the website and player.
+Le filtrage ne supprime pas toutes les publicités ; désactive-le si un lecteur ne fonctionne plus. Le thème et la reprise dépendent du site et du lecteur. / Filtering cannot remove every ad; disable it if a player stops working. Theme and resume support depend on the website and player.
 
-Fait avec ❤️ / Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Merci / thanks to [AlexAnimateMp4](https://github.com/AlexAnimateMp4) for the original app, [raphael-as](https://github.com/raphael-as) for his fork and the [Anime Sama team](https://anime-sama.to/) for the website. Discord : **justajade**.
+Windows 10/11 x64. Source et SHA-256 inclus / Source and SHA-256 included. Fichiers non signés / Unsigned downloads.
+
+Fait avec ❤️ / Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Merci / Thanks: [AlexAnimateMp4](https://github.com/AlexAnimateMp4), [raphael-as](https://github.com/raphael-as), [Bourinou](https://github.com/Bourinou), [Anime Sama](https://anime-sama.to/). Discord : **justajade**.

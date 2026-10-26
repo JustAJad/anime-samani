@@ -13,7 +13,7 @@ Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama
 **最適化と不具合修正**でアプリのリソース管理を改善しました。
 カスタム背景は引き続き使えます。削除するのは、アプリ内に保存された未使用のコピーだけです。
 
-[1.1 の詳しい変更履歴](docs/releases/1.1.0.md#日本語) · [リリースとダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
+[1.1 の詳しい変更履歴](docs/releases/1.1.0.ja.md) · [リリースとダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
 
 ## インストール
 
