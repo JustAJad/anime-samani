@@ -46,7 +46,7 @@ builder
         allowToChangeInstallationDirectory: true,
         deleteAppDataOnUninstall: false,
         createDesktopShortcut: true,
-        artifactName: 'Anime-Samani-${version}-Setup-${arch}.${ext}',
+        artifactName: 'Anime-Samani-Setup-${arch}.${ext}',
       },
     },
   })

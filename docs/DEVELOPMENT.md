@@ -44,3 +44,7 @@ Do not invite a collaborator or grant bypass solely to credit a contribution. Ex
 Keep `package.json` and `package-lock.json` at `1.1.0` and update FR/EN/JA notes together. A push to `main` runs Windows verification and publishes only if that version does not exist. The handoff workflow redeploys when `handoff/` changes. Never replace an existing release to test an update.
 
 Before claiming live compatibility, check the current website, each external player, Discord from another account, and an installed 1.0 → 1.1 update on Windows. Local fixtures verify app behavior but cannot establish live-host compatibility or the full installed updater cycle.
+
+## Installer filename
+
+Setup uses `Anime-Samani-Setup-x64.exe` and its matching `.blockmap` across releases. Keep the internal package version and updater version: they determine whether an update is newer. Portable and ZIP filenames remain versioned. The stable download link is `https://github.com/JustAJad/anime-samani/releases/latest/download/Anime-Samani-Setup-x64.exe`. The 1.1 migration renames existing installer assets without rebuilding them and updates `latest.yml` and `SHA256SUMS.txt` together.

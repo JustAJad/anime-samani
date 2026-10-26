@@ -1,0 +1,27 @@
+name: Stable Setup filename
+on:
+  push:
+    branches: [main]
+    paths: [scripts/rename-setup.cjs, .github/workflows/setup-name.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: samani-setup-name
+  cancel-in-progress: false
+jobs:
+  rename:
+    if: github.repository == 'JustAJad/anime-samani' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/rename-setup.cjs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

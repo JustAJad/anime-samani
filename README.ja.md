@@ -19,9 +19,11 @@ Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama
 
 **Windows 10 / 11 の64ビット版**に対応しています。[ダウンロードページ](https://github.com/JustAJad/anime-samani/releases)の **Assets** から選んでください。
 
-- **Setup**：インストールして、アプリ内で更新を受け取れます。
+- **[Setup](https://github.com/JustAJad/anime-samani/releases/latest/download/Anime-Samani-Setup-x64.exe)**：インストールして、アプリ内で更新を受け取れます。
 - **Portable**：インストールせずに起動できます。
 - **Windows.zip**：展開して `ANIME_SAMANI.exe` を起動します。
+
+Setup のファイル名は更新後も `Anime-Samani-Setup-x64.exe` のままです。Portable と ZIP の名前にはバージョン番号が入ります。
 
 現在のバージョンは **1.1** です。実行ファイルは未署名のため、Windows が警告を表示する場合があります。ソースコードと SHA-256 チェックサムも配布しています。
 
