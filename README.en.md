@@ -7,7 +7,7 @@
 
 Samani is a fork of [AlexAnimateMp4's](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) desktop app, and brings many more features!
 
-## New in 1.1
+## New version (1.1) out!
 
 A configurable website address, fewer ads, your colors inside the site,
 and **optimizations and bug fixes** to improve how the app manages resources.
