@@ -7,6 +7,17 @@
 
 Anime Samani est un fork de l'application de [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop), qui te donne plus de fonctionnalités !
 
+## Nouveautés de la 1.1
+
+- **Adresse du site configurable** : recherche sur anime-sama.pw au lancement, toutes les 24 h et après une erreur de chargement. Samani propose l’adresse ; tu choisis quand l’appliquer. La saisie manuelle reste disponible.
+- **Moins de publicités** : emplacements connus masqués, requêtes vers les régies connues filtrées et redirections publicitaires bloquées. Les lecteurs ne sont pas bloqués en bloc.
+- **Tes couleurs dans le site** : fonds et panneaux compatibles suivent la personnalisation de Samani.
+- **Entretien des ressources** : suppression des anciens fonds, 500 positions de lecture maximum, moins d’écritures pendant le redimensionnement et injection unique de la police.
+
+Les options **Chercher automatiquement les nouvelles adresses**, **Masquer les publicités** et **Appliquer mes couleurs au site** sont dans **Paramètres → Général**. Le filtre ne garantit pas de supprimer toutes les publicités ; désactive-le si un lecteur ne fonctionne plus. Le thème des lecteurs externes reste indépendant.
+
+[Guide de la version 1.1](docs/releases/1.1.0.md) · [Documentation technique](docs/DEVELOPMENT.md)
+
 ## Installation
 
 Pour **Windows 10 ou 11, en 64 bits**. Dans les [téléchargements](https://github.com/JustAJad/anime-samani/releases), ouvre **Assets** et choisis :
@@ -15,7 +26,7 @@ Pour **Windows 10 ou 11, en 64 bits**. Dans les [téléchargements](https://gith
 - **Portable** pour la lancer sans installation.
 - **Windows.zip** pour tout extraire toi-même, puis ouvrir `ANIME_SAMANI.exe`.
 
-La V1 est la première version stable. Les téléchargements ne sont pas signés. Windows peut donc
+La version actuelle est la **1.1**. Les téléchargements ne sont pas signés. Windows peut donc
 afficher un avertissement. Le code source et les sommes SHA-256 sont aussi fournis.
 
 ## Ce qu’il y a dans l’app
@@ -42,6 +53,10 @@ moins de **250 Mo**. Les vidéos de fond restent muettes et peuvent se mettre en
 pause pendant un épisode. Samani garde une copie du fichier sur ton PC ; déplacer
 l’original ne casse donc pas ton fond. Les formats acceptés sont PNG, JPEG, WebP,
 MP4 et WebM. Si une vidéo ne passe pas, essaie un WebM.
+
+Si Anime Sama change d’adresse, va dans **Paramètres → Général → Domaine du site** :
+saisis le nouveau domaine ou clique sur **Chercher sur anime-sama.pw** pour choisir
+dans la liste officielle. Tes favoris et reprises suivent automatiquement.
 
 Pour **Discord**, ouvre le client de bureau, puis Samani. L’application est déjà
 configurée : pas besoin de jeton ni de mot de passe. Dans les réglages, tu peux
@@ -110,6 +125,8 @@ Fait avec ❤️ par [Just A Jad](https://github.com/JustAJad). Grand merci à
 [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) pour l’app
 d’origine et à [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
 pour le travail de son propre fork.
+
+Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code, intégrés depuis sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2).
 
 Discord : **justajade**. Merci aussi à l’équipe [Anime Sama](https://anime-sama.to/) pour le site et son travail !
 

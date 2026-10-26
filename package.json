@@ -4,7 +4,7 @@
   "exeName": "ANIME_SAMANI",
   "releaseYear": "2023",
   "protocol": "anime-samani",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Anime Sama sur PC, avec des favoris, des fonds personnalisés et Discord.",
   "keywords": [
     "anime-samani",
@@ -29,6 +29,10 @@
     {
       "name": "raphael-as",
       "url": "https://github.com/raphael-as"
+    },
+    {
+      "name": "Bourinou",
+      "url": "https://github.com/Bourinou"
     }
   ],
   "files": [
@@ -51,18 +55,28 @@
   },
   "scripts": {
     "start": "electron .",
-    "test": "npm run check && node test/navigation.test.js && node test/samani.test.js && node test/media-links.test.js && node test/maintenance.test.js",
-    "check": "node --check index.js && node --check preload.js && node --check desktop/app.js && node --check desktop/preload.js && node --check lib/navigation.js && node --check lib/preferences.js && node --check lib/presence.js && node --check scripts/release.cjs && node --check build.js && node --check scripts/cleanup-releases.cjs && node --check lib/playback.js && node --check lib/updates.js && node --check scripts/version.cjs && node --check scripts/source.cjs && node --check lib/library.js && node --check lib/media.js && node --check lib/links.js && node --check handoff/open/app.js && node --check scripts/tidy-repository.cjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:unit": "node --test \"test/*.test.js\"",
+    "test": "npm run lint && npm run format:check && npm run test:unit",
+    "test:electron": "electron test/electron-smoke.cjs",
     "build": "node build.js",
     "build:win": "node build.js",
     "build:win:installer": "node build.js --installer",
-    "postinstall": "node node_modules/electron/install.js",
-    "test:electron": "electron test/electron-smoke.cjs"
+    "postinstall": "node node_modules/electron/install.js"
   },
   "DISCORD_CLIENT_ID": "1563568424691437578",
+  "updates": {
+    "minimumReleaseDate": "2026-10-25T12:44:00Z"
+  },
   "devDependencies": {
+    "@eslint/js": "9.39.5",
     "electron": "45.0.0",
-    "electron-builder": "26.18.0"
+    "electron-builder": "26.18.0",
+    "eslint": "9.39.5",
+    "globals": "16.5.0",
+    "prettier": "3.9.10"
   },
   "dependencies": {
     "electron-store": "8.2.0",

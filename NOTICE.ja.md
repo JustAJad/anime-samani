@@ -19,3 +19,5 @@ Anime Samani — https://github.com/JustAJad/anime-samani
 同梱の Beckman はアプリの MPL-2.0 で再ライセンスしていません。フォントの帰属表示は [assets/fonts/NOTICE.md](assets/fonts/NOTICE.md) を参照してください。
 
 各バージョンに対応するソースコードは、配布する Source.zip とリポジトリに含まれます。再ビルドするには Node.js 24 を用意し、`npm ci`、`npm test`、`npm run build:win` を実行してください。
+
+- 1.1 への貢献：**[Bourinou](https://github.com/Bourinou)** — ドメイン設定、リソース修正、コード整理。

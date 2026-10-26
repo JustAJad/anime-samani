@@ -14,8 +14,9 @@ mot de passe. Voir [SUPPORT.md](SUPPORT.md).
 
 ## Développer
 
-Utilisez Node.js 24 et `npm ci`. `npm test` vérifie la navigation, les thèmes,
-les traductions et le protocole RPC. `npm run test:electron` utilise les vraies
+Utilisez Node.js 24 et `npm ci`. `npm test` lance ESLint, vérifie le formatage
+Prettier (`npm run format` le corrige), puis la navigation, les thèmes, les
+traductions et le protocole RPC. `npm run test:electron` utilise les vraies
 fenêtres Electron avec des pages locales et des fonds de test. Il faut un bureau
 graphique ; sous Linux, un serveur X est nécessaire. Sur Windows,
 `npm run build:win:installer` vérifie les trois formats de distribution.
@@ -39,7 +40,7 @@ Mettez à jour le changelog et les notes de version dans les trois langues.
 Le workflow Windows teste et construit l’app à chaque push sur `main`, puis
 publie les nouveaux numéros de version avec le code source, les crédits et les sommes SHA-256.
 Les versions de `package.json` et `package-lock.json` sont explicites : un
-rebuild de V1 reste en 1.0.0. Une publication portant un numéro déjà utilisé
+rebuild de la 1.1 reste en 1.1.0. Une publication portant un numéro déjà utilisé
 ne remplace pas les fichiers existants. Préparez un build de test avant toute
 modification d’une version publiée.
 Le jeton automatique de GitHub suffit.
@@ -52,3 +53,9 @@ lecteurs, Discord et la mise à jour depuis une installation précédente quand
 vous modifiez ces fonctions.
 
 Les liens RPC passent par une petite page GitHub Pages. Voir [le fonctionnement et le déploiement](docs/LINKS.md).
+
+## Contributeurs et accès
+
+Merci à [Bourinou](https://github.com/Bourinou) pour sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Pour contribuer, crée un fork et ouvre une PR vers `main` : aucun droit d’écriture n’est nécessaire. Une mention dans les crédits ne donne aucun accès au dépôt. Le propriétaire garde la décision de fusionner et publier.
+
+L’architecture, les tests et les choix d’accès sont dans [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Pour la 1.1, mets `1.1.0` dans les deux fichiers de version. Un rebuild conserve ce numéro ; une version déjà publiée n’est pas remplacée.

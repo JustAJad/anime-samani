@@ -27,3 +27,5 @@ Le code correspondant accompagne chaque version dans Source.zip et dans le dép�
 Pour reconstruire : Node.js 24, npm ci, npm test, puis npm run build:win.
 Matching source is included in Source.zip and this repository. Rebuild with
 Node.js 24, npm ci, npm test and npm run build:win.
+
+- Contribution 1.1 / 1.1 contribution : **[Bourinou](https://github.com/Bourinou)** — domaines configurables, ressources et refactorisation / configurable domains, resources and refactoring.

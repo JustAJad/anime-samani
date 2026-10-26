@@ -1,49 +1,33 @@
-# Anime Samani 1.0 — V1
+# Anime Samani 1.1
 
 [日本語](RELEASE-NOTES.ja.md)
 
 ## Français
 
-La première version stable de Samani, pour Windows 10/11 en 64 bits.
+- Domaine du site configurable à la main ou depuis la liste d’anime-sama.pw. Recherche automatique au lancement, toutes les 24 h et après une erreur ; application du domaine à ton choix.
+- Favoris, reprises, suivi des épisodes et liens Discord suivent le domaine sélectionné. La page de relais accepte les domaines officiels connus.
+- Filtre des régies publicitaires connues, masquage des emplacements publicitaires et blocage des popups et redirections automatiques externes.
+- Couleurs et transparence de Samani sur les fonds et panneaux compatibles du site. Options de filtre et de thème dans Paramètres → Général.
+- Anciens fonds supprimés, positions de lecture limitées à 500, moins d’écritures des dimensions de fenêtre, police injectée une seule fois par page.
+- Processus principal organisé en modules, ESLint et Prettier, documentation revue dans les trois langues et nouveaux tests.
 
-- Guide au premier lancement (avec bouton pour passer), barre latérale réductible avec `Ctrl+B`, menus animés et paramètres organisés par onglets.
-- Favoris par anime avec couvertures et bannière de reprise ; mode cinéma réservé aux épisodes.
-- Fond vidéo corrigé pendant la navigation, nouveau logo et bannières Setup. Le logo de la barre latérale reste le même.
-- Beckman reste sur les titres et boutons. Le texte courant retrouve une police sans capitales forcées.
-- RPC simplifié : plus de champ ID, de portail ni de texte à configurer. Boutons Regarder / À propos, icônes lecture/pause et état « En pause ».
-- Les fonds vidéo prennent en charge la lecture par plages d’octets pour les boucles et déplacements dans la vidéo. Le guide ne revient plus après la première utilisation.
-- Le japonais rejoint le français et l’anglais dans les réglages.
-- Un bouton **Reprendre** retrouve le dernier épisode ; la position est conservée sur les lecteurs HTML5 accessibles.
-- Les favoris sont liés au bouton du site sur les pages compatibles.
-- Discord garde le chrono de navigation en passant d’une page à l’autre et dans la barre système. Pendant la lecture : couverture de l’anime, nom d’épisode si disponible, saison, épisode et temps restant si le lecteur le fournit. La pause retire le compte à rebours.
-- **Setup** peut télécharger les prochaines versions et les installer au redémarrage. Les mises à jour sont aussi dans les réglages. Le numéro de V1 reste 1.0.0, y compris lors d’un rebuild.
-
-Choisis **Setup-x64.exe** pour les mises à jour intégrées. Portable et ZIP restent disponibles, avec mise à jour manuelle. L’application est non signée.
-La reprise et le temps restant dépendent du lecteur. Les favoris restent locaux, sans synchronisation entre appareils. La lecture sur les hébergeurs et l’affichage dans un vrai client Discord restent à vérifier sur ton PC ; le cycle complet de mise à jour demande une installation et une version suivante.
-
-Fait avec ❤️ par [Just A Jad](https://github.com/JustAJad). Merci à AlexAnimateMp4 pour l’app d’origine et à raphael-as pour son travail sur son fork.
+Merci à [Bourinou](https://github.com/Bourinou) pour les domaines configurables, les corrections de ressources et la réorganisation du code dans sa [PR #2](https://github.com/JustAJad/anime-samani/pull/2) ! Son nom est aussi lié dans les remerciements de l’app.
 
 ## English
 
-Samani’s first stable release, for 64-bit Windows 10/11.
+- Manually configurable website domain or selection from anime-sama.pw. Automatic checks at startup, every 24 hours and after a loading error; you choose when to switch.
+- Favorites, resume, episode tracking and Discord links follow your selected domain. The handoff page accepts known official domains.
+- Known ad-network filtering, hidden ad slots and blocked popups and automatic external redirects.
+- Samani’s colors and transparency on supported website backgrounds and panels. Filter and theme controls in Settings → General.
+- Old backgrounds removed, saved positions capped at 500, fewer window-size writes and one font injection per page.
+- Modular main process, ESLint and Prettier, refreshed documentation in three languages and new regression tests.
 
-- Skippable first-run guide, sidebar collapse with `Ctrl+B`, animated menus and settings tabs.
-- Anime-only favorites with covers and a resume banner; cinema restricted to episodes.
-- Background video playback fixed across menus, new logo and Setup artwork. Sidebar branding is preserved.
-- Beckman for headings and buttons, with mixed-case body text.
-- Simplified RPC settings: no ID, portal or editable presence text. Watch / About links, play/pause icons and paused status.
-- Video backgrounds support byte-range reads for looping and seeking. The tour is first-run only.
-- Japanese UI alongside French and English.
-- **Resume** reopens your last episode and restores position on accessible HTML5 players.
-- Favorite additions/removals link to the website button on compatible pages.
-- Discord’s browsing timer survives navigation and tray mode. Watching shows the cover, available episode title, season/episode and remaining time when the player exposes it. Pausing removes the countdown.
-- **Setup** downloads future updates and installs them on restart. Settings also include an update panel. V1 keeps version 1.0.0, including rebuilds.
+Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and the refactor in [PR #2](https://github.com/JustAJad/anime-samani/pull/2)! His username also links to his profile in the app’s thanks.
 
-Choose **Setup-x64.exe** for in-app updates. Portable and ZIP require manual updates. Downloads are unsigned.
-Resume and countdown support depend on the player. Favorites are local, without cross-device sync. Live hosts and Discord display still need checking on your PC; a full update cycle needs an installed build and a subsequent version.
+## Installation / Installing
 
-Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Thanks to AlexAnimateMp4 for the original app and raphael-as for the work on his fork.
+Windows 10/11 x64 : **Setup** pour les mises à jour intégrées / for in-app updates. Portable et ZIP : mise à jour manuelle / manual updates. Source et SHA-256 inclus / included. Les fichiers restent non signés / downloads remain unsigned.
 
-[Anime Sama](https://anime-sama.to/) — Merci à toute l’équipe pour le site ! / Thanks to the website team! / サイト運営チームに感謝！
+Le filtrage ne supprime pas toutes les pubs ; désactive-le si un lecteur ne fonctionne plus. Le thème et la reprise dépendent du site et du lecteur. / Filtering cannot remove every ad; turn it off if a player stops working. Theme and resume support depend on the website and player.
 
-Discord : **justajade**.
+Fait avec ❤️ / Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Merci / thanks to [AlexAnimateMp4](https://github.com/AlexAnimateMp4) for the original app, [raphael-as](https://github.com/raphael-as) for his fork and the [Anime Sama team](https://anime-sama.to/) for the website. Discord : **justajade**.

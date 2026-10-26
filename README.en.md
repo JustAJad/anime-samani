@@ -7,6 +7,17 @@
 
 Samani is a fork of [AlexAnimateMp4's](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) desktop app, and brings many more features!
 
+## New in 1.1
+
+- **Configurable website address**: checks anime-sama.pw at startup, every 24 hours and after a loading failure. Samani suggests an address; you choose when to apply it. Manual entry remains available.
+- **Fewer ads**: known ad slots are hidden, known ad networks are filtered and automatic external redirects are blocked. Player frames are not blocked as a group.
+- **Your colors inside the site**: supported backgrounds and panels follow Samani’s theme.
+- **Resource maintenance**: old backgrounds are removed, playback positions are capped at 500, window resizing writes less often and the font is injected once per page.
+
+Find **Automatically check for new addresses**, **Hide advertisements** and **Apply my colors to the website** in **Settings → General**. Filtering cannot remove every ad; disable it if a player stops working. External player themes remain independent.
+
+[1.1 guide](docs/releases/1.1.0.md) · [Technical documentation](docs/DEVELOPMENT.md)
+
 ## Installation
 
 For **64-bit Windows 10 or 11**. Open [Releases](https://github.com/JustAJad/anime-samani/releases), expand **Assets**, and choose:
@@ -15,7 +26,7 @@ For **64-bit Windows 10 or 11**. Open [Releases](https://github.com/JustAJad/ani
 - **Portable** to run it without installing.
 - **Windows.zip** to extract everything yourself and open `ANIME_SAMANI.exe`.
 
-V1 is the first stable release. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
+The current version is **1.1**. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
 Source code and SHA-256 checksums are included too.
 
 ## Features
@@ -105,6 +116,8 @@ Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Huge thanks to
 [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) for the
 original app and [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
 for keeping it going with his own fork.
+
+Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and code organization, integrated from [PR #2](https://github.com/JustAJad/anime-samani/pull/2).
 
 Discord: **justajade**. Thanks also to the [Anime Sama team](https://anime-sama.to/) for the website and their work!
 

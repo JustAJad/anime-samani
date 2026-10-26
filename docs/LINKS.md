@@ -8,8 +8,7 @@ l’app ne s’ouvre pas. Un navigateur peut demander une confirmation ; une pag
 ne peut pas détecter à coup sûr si une application est installée. Les boutons
 « Ouvrir Samani » et « Continuer sur le site » restent disponibles.
 
-Le paramètre `url` accepte uniquement une URL HTTPS sur `anime-sama.to` ou
-`www.anime-sama.to`, sans identifiants ni port particulier. Le paramètre `episode`
+Le paramètre `url` accepte uniquement une URL HTTPS sur les domaines connus `.si`, `.tv`, `.to`, `.org`, `.fr` ou `.eu` (avec ou sans `www`), sans identifiants ni port particulier. Le paramètre `episode`
 est limité à 160 caractères. Le destinataire natif valide à nouveau le lien.
 Un lien Regarder conserve la page et l’épisode dans Samani. Le site web gère son
 propre choix d’épisode lorsque le lien s’ouvre dans le navigateur.
@@ -48,3 +47,7 @@ RPCボタンは `https://justajad.github.io/anime-samani/open/` を経由しま�
 
 管理者はPagesのソースをGitHub Actionsにし、`github-pages` 環境で`main` を許可してください。ワークフローは案内ページ
 だけを公開し、Windowsアプリは公開しません。ユーザーのトークンは不要です。
+
+## 1.1
+
+Les domaines configurables et la liste officielle viennent de la contribution de [Bourinou](https://github.com/Bourinou) ([PR #2](https://github.com/JustAJad/anime-samani/pull/2)). Le code natif réécrit les anciens liens vers le domaine choisi. / Configurable domains come from Bourinou’s contribution. Native code migrates old links to the selected domain. / ドメイン設定は Bourinou の貢献です。アプリは古いリンクを選択したドメインに変換します。

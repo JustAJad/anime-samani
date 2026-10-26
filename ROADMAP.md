@@ -2,6 +2,12 @@
 
 [日本語](ROADMAP.ja.md)
 
+## Dans la 1.1 / In 1.1
+
+- [x] Domaines configurables et découverte automatique / Configurable domains and discovery.
+- [x] Filtre publicitaire et thème du site / Ad filtering and website theming.
+- [x] Ressources et modularisation, merci à [Bourinou](https://github.com/Bourinou) / Resource fixes and refactoring.
+
 ## Dans la V1 / In V1
 
 - [x] Interface française, anglaise et japonaise / French, English and Japanese UI.

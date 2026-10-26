@@ -65,3 +65,9 @@ The buttons use a small HTTPS page to open Samani. Setup registers the
 `anime-samani://` link during installation; portable builds register it when
 first launched. If you move the app, launch it again to update that registration.
 Without the app, the page falls back to Anime Sama. Browsers may ask for confirmation.
+
+## Domaine, publicités et thème / Domain, ads and theme
+
+**FR :** Paramètres → Général permet de chercher sur anime-sama.pw, choisir une proposition ou saisir un domaine HTTPS Anime Sama. La recherche automatique n’applique jamais une adresse toute seule. En cas d’échec du portail, le domaine actif et la dernière liste restent disponibles. Attention : le format d’un domaine ne prouve pas son authenticité ; vérifie-le sur le portail. Les favoris et reprises suivent le domaine choisi. Si une vidéo ne charge plus, désactive **Masquer les publicités**, puis actualise. Le thème agit sur les pages compatibles du site, pas sur les lecteurs externes.
+
+**EN:** Settings → General lets you search anime-sama.pw, choose a suggestion or enter an Anime Sama HTTPS domain. Automatic discovery never switches addresses by itself. If the portal fails, your active domain and cached list remain available. A domain’s shape does not prove authenticity; verify it on the portal. Favorites and resume links follow the selected domain. If a video stops loading, disable **Hide advertisements** and reload. The theme applies to supported website pages, not external players.

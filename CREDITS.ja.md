@@ -20,3 +20,5 @@ Discord：**justajade**。
 - [Discord とクレジットの更新](https://github.com/raphael-as/anime-sama-fr-desktop/commit/351fa3f4893ed00b5e0b0df2031a1d977fafea73)。
 
 元の履歴と [MPL-2.0 ライセンス](LICENSE) は維持しています。依存ライブラリには、それぞれのライセンスが適用されます。Anime Sama と Discord は独立した外部サービスです。
+
+- **[Bourinou](https://github.com/Bourinou)**：ドメイン設定・自動検出、リソース修正、メインプロセスの整理（[PR #2](https://github.com/JustAJad/anime-samani/pull/2)）。

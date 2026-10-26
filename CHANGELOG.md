@@ -2,6 +2,10 @@
 
 [日本語](CHANGELOG.ja.md)
 
+## 1.1.0
+
+Domain selection and automatic discovery, ad filtering and website theme integration. Resource fixes and modular main process contributed by [Bourinou](https://github.com/Bourinou) in [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Linked contributor credits, French/English/Japanese docs and regression checks refreshed. / Domaines et détection automatique, filtre publicitaire et thème du site ; crédits et documentation mis à jour.
+
 ## 1.0.0
 
 Lecture/pause et liens Regarder / À propos dans Discord, réglages RPC simplifiés,

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+artifacts/
+release-assets/
+package-lock.json
+*.md
+*.html
+*.yml

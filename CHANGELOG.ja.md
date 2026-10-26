@@ -2,6 +2,10 @@
 
 [Français / English](CHANGELOG.md) · [日本語 README](README.ja.md)
 
+## 1.1.0
+
+ドメイン選択と自動確認、広告フィルター、サイトへのテーマ適用。[Bourinou](https://github.com/Bourinou) の [PR #2](https://github.com/JustAJad/anime-samani/pull/2) によるリソース修正とコード整理。リンク付き謝辞、3言語の資料、回帰テストを更新。
+
 ## 1.0.0
 
 Discordの再生・一時停止表示と視聴・作品情報リンク、RPC設定の整理、読みやすい本文フォント、初回限定ガイド、背景動画の部分読み込み、新しいスクリーンショット。

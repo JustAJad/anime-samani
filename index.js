@@ -1,235 +1,220 @@
 // SPDX-License-Identifier: MPL-2.0
 // Anime Samani. Original application: AlexAnimateMp4. See CREDITS.md.
-const { app, BrowserWindow, WebContentsView, ipcMain, Menu, Tray, dialog, shell, protocol, net, nativeTheme } = require('electron');
-const { join, extname, basename } = require('node:path');
-const { pathToFileURL } = require('node:url');
-const { readFileSync, existsSync, mkdirSync, copyFileSync, statSync } = require('node:fs');
-const { randomBytes } = require('node:crypto');
+const { app, BrowserWindow, WebContentsView, protocol, nativeTheme } = require('electron');
+const { join } = require('node:path');
+const { readFileSync } = require('node:fs');
 const Store = require('electron-store');
 const pkg = require('./package.json');
-const { defaults, presets, sanitize, websiteCss } = require('./lib/preferences');
-const { SITE_URL, isSiteUrl, migrateSiteUrl, installNavigation } = require('./lib/navigation');
-const {animeIdentity,isAnime,favoriteEntry,normalizeFavorites}=require('./lib/library');
-const { sampleFrames, seekFrame, progressKey } = require('./lib/playback');
-const {serveMedia}=require('./lib/media');
-const {parseAppLink}=require('./lib/links');
+const { defaults, sanitize } = require('./lib/preferences');
+const { siteUrl, setSiteDomain, addKnownDomains, migrateSiteUrl } = require('./lib/navigation');
+const { normalizeFavorites } = require('./lib/library');
+const { createMediaStore } = require('./lib/media');
+const { createProgress } = require('./lib/progress');
+const { parseAppLink } = require('./lib/links');
 const { installUpdates } = require('./lib/updates');
-const { Presence, buildActivity } = require('./lib/presence');
-const dictionaries = { fr: require('./desktop/i18n/fr.json'), en: require('./desktop/i18n/en.json'), ja: require('./desktop/i18n/ja.json') };
-const repository = pkg.repository.url.replace(/\.git$/, '');
-protocol.registerSchemesAsPrivileged([{ scheme: 'samani-media', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }]);
+const { Presence } = require('./lib/presence');
+const { createContext } = require('./lib/main/context');
+const { installSite } = require('./lib/main/site');
+const { installDesktop } = require('./lib/main/desktop');
+const { installDiscovery } = require('./lib/main/discovery');
+const { installAdFilter } = require('./lib/ads');
+const { installMenus } = require('./lib/main/menu');
+
+const BACKGROUND = '#0b0c10';
+const WINDOW = {
+  width: 1360,
+  height: 900,
+  minWidth: 980,
+  minHeight: 680,
+  maxWidth: 2200,
+  maxHeight: 1500,
+};
+// Never let a stuck renderer or slow network trap the user in the intro.
+const INTRO_TIMEOUT_MS = 3000;
+const INTRO_TIMEOUT_REDUCED_MS = 300;
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: 'samani-media',
+    privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true },
+  },
+]);
 app.setName('Anime Samani');
 // Keep the existing profile location so cookies and settings survive updates.
-app.setPath('userData', process.env.SAMANI_TEST_PROFILE || join(app.getPath('appData'), 'anime-sama-to-desktop'));
-let pendingAppLink=process.argv.map(parseAppLink).find(Boolean),dispatchAppLink;
-app.on('open-url',(event,url)=>{event.preventDefault();const link=parseAppLink(url);if(link){pendingAppLink=link;dispatchAppLink?.(link);}});
-const startup = async () => {
-  await app.whenReady(); nativeTheme.themeSource = 'dark';
-  const config = new Store({ name: 'samani-preferences' });
-  const libraryStore = new Store({ name: 'samani-library', defaults: { favorites: [], recent: [] } });
-  if(!libraryStore.has('v1AnimeLibrary')){libraryStore.set('favoritesBackup',libraryStore.get('favorites',[]));libraryStore.set('favorites',normalizeFavorites(libraryStore.get('favorites',[])));libraryStore.set('v1AnimeLibrary',true);}
-  let preferences = sanitize(config.get('preferences', defaults));
-  if (!config.has('preferences')) {
-    try {
-      const old = JSON.parse(readFileSync(join(app.getPath('userData'), 'settings.json'), 'utf8')).ANIME_SAMA_JUST_A_JAD;
-      if (old) preferences = sanitize({ language: 'fr', alwaysOnTop: old.ALWAYS_ON_TOP, minimizeToTray: old.MINIMIZE_TO_TRAY, rememberWindow: old.SAVE_WINDOW_SIZE, startAtLogin: old.START_UP });
-    } catch { /* A fresh installation starts with the French Samani theme. */ }
-    config.set('preferences', preferences);
+app.setPath(
+  'userData',
+  process.env.SAMANI_TEST_PROFILE || join(app.getPath('appData'), 'anime-sama-to-desktop')
+);
+
+// Deep links can arrive before the window exists; the latest one wins.
+let pendingAppLink = process.argv.map(parseAppLink).find(Boolean);
+let dispatchAppLink;
+app.on('open-url', (event, url) => {
+  event.preventDefault();
+  const link = parseAppLink(url);
+  if (!link) return;
+  pendingAppLink = link;
+  dispatchAppLink?.(link);
+});
+
+/** Preferences, imported once from the original app's settings file. */
+function loadPreferences(config) {
+  if (config.has('preferences')) return sanitize(config.get('preferences', defaults));
+  let preferences = sanitize(defaults);
+  try {
+    const file = join(app.getPath('userData'), 'settings.json');
+    const old = JSON.parse(readFileSync(file, 'utf8')).ANIME_SAMA_JUST_A_JAD;
+    if (old) {
+      preferences = sanitize({
+        language: 'fr',
+        alwaysOnTop: old.ALWAYS_ON_TOP,
+        minimizeToTray: old.MINIMIZE_TO_TRAY,
+        rememberWindow: old.SAVE_WINDOW_SIZE,
+        startAtLogin: old.START_UP,
+      });
+    }
+  } catch {
+    /* A fresh installation starts with the French Samani theme. */
   }
-  const mediaDir = join(app.getPath('userData'), 'samani-media'); mkdirSync(mediaDir, { recursive: true });
-  protocol.handle('samani-media', request => {
-    const url = new URL(request.url); const file = url.pathname.slice(1);
-    if (url.host !== 'background' || !/^[a-f0-9]{32}\.(png|jpg|jpeg|webp|mp4|webm)$/.test(file) || !existsSync(join(mediaDir, file))) return new Response('', { status: 404 });
-    return serveMedia(join(mediaDir,file),request);
-  });
-  const savedBounds = config.get('window', {});
+  config.set('preferences', preferences);
+  return preferences;
+}
+
+/** V1 keeps only anime favorites; the previous list is kept as a backup. */
+function migrateLibrary(libraryStore) {
+  if (libraryStore.has('v1AnimeLibrary')) return;
+  const favorites = libraryStore.get('favorites', []);
+  libraryStore.set('favoritesBackup', favorites);
+  libraryStore.set('favorites', normalizeFavorites(favorites));
+  libraryStore.set('v1AnimeLibrary', true);
+}
+
+function createWindow(preferences, saved) {
+  const remember = preferences.rememberWindow;
+  const size = (value, fallback, min, max) =>
+    remember ? Math.max(min, Math.min(max, value || fallback)) : fallback;
   const window = new BrowserWindow({
-    width: preferences.rememberWindow ? Math.max(980, Math.min(2200, savedBounds.width || 1360)) : 1360,
-    height: preferences.rememberWindow ? Math.max(680, Math.min(1500, savedBounds.height || 900)) : 900,
-    minWidth: 980, minHeight: 680, show: false, title: 'Anime Samani', backgroundColor: '#0b0c10',
-    icon: join(__dirname, 'icon.png'), autoHideMenuBar: true,
-    webPreferences: { preload: join(__dirname, 'desktop/preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false }
+    width: size(saved.width, WINDOW.width, WINDOW.minWidth, WINDOW.maxWidth),
+    height: size(saved.height, WINDOW.height, WINDOW.minHeight, WINDOW.maxHeight),
+    minWidth: WINDOW.minWidth,
+    minHeight: WINDOW.minHeight,
+    show: false,
+    title: 'Anime Samani',
+    backgroundColor: BACKGROUND,
+    icon: join(__dirname, 'icon.png'),
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload: join(__dirname, 'desktop/preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
+      backgroundThrottling: false,
+    },
   });
   window.setAlwaysOnTop(preferences.alwaysOnTop);
-  const site = new WebContentsView({ webPreferences: { preload: join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true } });
-  window.contentView.addChildView(site); site.setBackgroundColor('#00000000'); site.setVisible(false);
-  const wc = site.webContents; let page = { title: 'Anime Sama', url: SITE_URL, episode: '', season: '', language: '', playing: false };
-  let error = null; let loading = true; let panel = false; let intro = preferences.intro; let cinema = false; let guiding=false; let cssKey; let since = Date.now(); let quitting = false; let ready = false;
-  let bounds = { x: 244, y: 88, width: 1100, height: 730 }; let tray;
-  const presence = new Presence(); let rpcTimer;
-  const canCinema=()=>isAnime(page)&&Boolean(page.episode)&&!error;
-  const toggleCinema=()=>{cinema=canCinema()&&!cinema;send();};
-  const updates=installUpdates(app,window,()=>send(),()=>preferences.language);
-  const progress=new Store({name:'samani-progress',accessPropertiesByDotNotation:false});let sampling=false,restoredKey='',pendingResume=null;
-  const t = key => dictionaries[preferences.language][key] || key;
-  const state = () => ({ preferences, presets, page, error, loading, cinema:cinema&&canCinema(), canFavorite:isAnime(page)&&!error&&!loading, canCinema:canCinema(), needsGuide:!config.get('guideV1Complete',false), panel, rpcStatus: presence.status, update:updates.state(), favorites: normalizeFavorites(libraryStore.get('favorites', [])), recent: libraryStore.get('recent', []).filter(item=>animeIdentity(item.url)&&item.episode), version: pkg.version, repository, dictionary: dictionaries[preferences.language], mediaUrl: preferences.media ? `samani-media://background/${preferences.media}` : null });
-  const send = () => { if (ready && !window.isDestroyed()) window.webContents.send('samani:state', state()); };
-  const visibility = () => { if (!wc.isDestroyed()) { site.setBounds(bounds); site.setVisible(!guiding && !panel && !error && !intro && bounds.width > 0 && bounds.height > 0); } };
-  const updateRpc = () => {
-    clearTimeout(rpcTimer);
-    presence.configure(preferences.rpcEnabled,pkg.DISCORD_CLIENT_ID);
-    presence.update(buildActivity(page, preferences, since, repository));
+  const site = new WebContentsView({
+    webPreferences: {
+      preload: join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
+    },
+  });
+  window.contentView.addChildView(site);
+  site.setBackgroundColor('#00000000');
+  site.setVisible(false);
+  return { window, site };
+}
+
+async function startup() {
+  await app.whenReady();
+  nativeTheme.themeSource = 'dark';
+  const config = new Store({ name: 'samani-preferences' });
+  const libraryStore = new Store({
+    name: 'samani-library',
+    defaults: { favorites: [], recent: [] },
+  });
+  migrateLibrary(libraryStore);
+  const preferences = loadPreferences(config);
+  addKnownDomains((config.get('domainScan')?.results || []).map(result => result.domain));
+  setSiteDomain(preferences.domain);
+
+  const media = createMediaStore(join(app.getPath('userData'), 'samani-media'));
+  // Clears backgrounds left behind by earlier versions, which never deleted replaced files.
+  media.keepOnly(preferences.media);
+  protocol.handle('samani-media', request => media.serve(request));
+
+  const { window, site } = createWindow(preferences, config.get('window', {}));
+  const ctx = createContext({
+    window,
+    site,
+    config,
+    libraryStore,
+    progress: createProgress(
+      new Store({ name: 'samani-progress', accessPropertiesByDotNotation: false })
+    ),
+    media,
+    presence: new Presence(),
+    preferences,
+    pkg,
+  });
+  ctx.updates = installUpdates(app, window, {
+    notify: () => ctx.send(),
+    language: () => ctx.preferences.language,
+    beforeInstall: () => (ctx.quitting = true),
+    minimumReleaseDate: pkg.updates?.minimumReleaseDate,
+  });
+  ctx.presence.on('status', () => ctx.send());
+  installSite(ctx);
+  installDiscovery(ctx);
+  installAdFilter(ctx);
+  installDesktop(ctx);
+  installMenus(ctx);
+
+  await window.loadFile(join(__dirname, 'desktop/index.html'));
+  ctx.ready = true;
+  ctx.send();
+  window.show();
+  const introTimeout = preferences.reducedMotion ? INTRO_TIMEOUT_REDUCED_MS : INTRO_TIMEOUT_MS;
+  setTimeout(() => {
+    ctx.intro = false;
+    ctx.visibility();
+  }, introTimeout).unref();
+
+  dispatchAppLink = link => {
+    // Links parsed before the saved domain was applied may still point to the default one.
+    const url = migrateSiteUrl(link.url);
+    ctx.pendingResume = link.episode ? { ...link, url } : null;
+    ctx.navigate(url);
+    ctx.focus();
   };
-  const scheduleRpc = () => { clearTimeout(rpcTimer); rpcTimer = setTimeout(updateRpc, 1000); rpcTimer.unref?.(); };
-  presence.on('status', send);
-  const navigation = installNavigation(wc, failure => { error = failure; loading = false; page.playing = false;  visibility(); updateRpc(); send(); });
-  const navigate = async url => {
-    const migrated = migrateSiteUrl(url);
-    if (!isSiteUrl(migrated)) return false;
-    error = null; loading = true; panel = false; visibility(); send();
-    return navigation.load(migrated);
-  };
-  const reload = () => navigate(error?.url || page.url || SITE_URL);
-  const fontBytes=[...readFileSync(join(__dirname,'assets/fonts/Beckman-FREE.otf'))];
-  const applyWebsite = async () => {
-    if (!isSiteUrl(wc.getURL())) return;
-    try { await wc.executeJavaScript(`(async()=>{if(![...document.fonts].some(font=>font.family==='Beckman')){const f=new FontFace('Beckman',new Uint8Array(${JSON.stringify(fontBytes)}).buffer);await f.load();document.fonts.add(f);}})()`); if (cssKey) await wc.removeInsertedCSS(cssKey); cssKey = await wc.insertCSS(websiteCss(preferences)); } catch { /* Navigation may replace the document between updates. */ }
-  };
-  function setMenu() {
-    const items = [
-      { label: t('home'), accelerator: 'Alt+Home', click: () => navigate(SITE_URL) },
-      { label: t('back'), accelerator: 'Alt+Left', click: () => { if(wc.navigationHistory.canGoBack())wc.navigationHistory.goBack(); } },
-      { label: t('forward'), accelerator: 'Alt+Right', click: () => { if(wc.navigationHistory.canGoForward())wc.navigationHistory.goForward(); } },
-      { label: t('reload'), accelerator: 'CmdOrCtrl+R', click: reload },
-      { label:t('toggleSidebar'),accelerator:'CmdOrCtrl+B',click:()=>window.webContents.send('samani:command','sidebar') },
-      { label: t('settings'), accelerator: 'CmdOrCtrl+,', click: () => window.webContents.send('samani:command','settings') },
-      { type: 'separator' }, { label:t('quit'), click: () => { quitting=true;app.quit(); } }
-    ];
-    Menu.setApplicationMenu(Menu.buildFromTemplate([{ label:'Anime Samani',submenu:items },{label:t('view'),submenu:[{label:t('cinema'),accelerator:'CmdOrCtrl+Shift+F',click:toggleCinema},{role:'togglefullscreen',label:t('fullscreen'),accelerator:'F11'},{label:t('zoomIn'),click:()=>wc.setZoomLevel(Math.min(3,wc.getZoomLevel()+.5))},{label:t('zoomOut'),click:()=>wc.setZoomLevel(Math.max(-2,wc.getZoomLevel()-.5))}]},{label:t('help'),submenu:[{label:t('downloads'),click:()=>shell.openExternal(`${repository}/releases`)},{label:t('report'),click:()=>shell.openExternal(`${repository}/issues/new/choose`)},{label:t('about'),click:()=>window.webContents.send('samani:command','about')}]}]));
-    if (tray) tray.setContextMenu(Menu.buildFromTemplate([{label:'Anime Samani',click:()=>window.show()},{label:t('settings'),click:()=>{window.show();window.webContents.send('samani:command','settings');}},{type:'separator'},{label:t('quit'),click:()=>{quitting=true;app.quit();}}]));
+  if (app.isPackaged) {
+    const portable = process.env.PORTABLE_EXECUTABLE_FILE;
+    if (portable) app.setAsDefaultProtocolClient(pkg.protocol, portable);
+    else app.setAsDefaultProtocolClient(pkg.protocol);
   }
-  const safeExternal = url => { if (/^https:\/\//.test(url)) shell.openExternal(url).catch(()=>{}); };
-  wc.on('will-navigate', (event,url) => { const migrated=migrateSiteUrl(url);if(migrated!==url){event.preventDefault();navigate(migrated);}else if(!isSiteUrl(url)){event.preventDefault();safeExternal(url);} });
-  wc.on('will-redirect', (event,url) => { if(!isSiteUrl(url)){event.preventDefault();safeExternal(url);} });
-  wc.setWindowOpenHandler(({url})=>{if(isSiteUrl(url))navigate(url);return {action:'deny'};});
-  wc.on('will-attach-webview', event=>event.preventDefault());
-  wc.on('did-start-navigation',(_event,url,_inPlace,isMainFrame)=>{if(isMainFrame&&isSiteUrl(url)){error=null;loading=true;cinema=false;page={title:'Anime Sama',url,episode:'',season:'',language:'',playing:false};restoredKey='';scheduleRpc();visibility();send();}});
-  wc.on('did-finish-load',()=>{loading=false;applyWebsite();if(pendingResume&&pendingResume.url===wc.getURL()){wc.send('samani:resume-episode',pendingResume.episode);pendingResume=null;}send();});
-  wc.on('dom-ready',applyWebsite);
-  wc.on('media-started-playing',()=>{page.playing=isAnime(page)&&Boolean(page.episode);if(page.playing)page.hasPlayback=true;scheduleRpc();send();});
-  wc.on('media-paused',()=>{page.playing=false;scheduleRpc();send();});
-  wc.on('render-process-gone',()=>{error={kind:'network',code:'RENDERER_EXIT',description:t('rendererExit'),url:page.url};visibility();send();});
-  const validPage = event => !wc.isDestroyed() && event.senderFrame && event.sender === wc && event.senderFrame === wc.mainFrame && isSiteUrl(event.senderFrame.url);
-  ipcMain.on('samani:page',(event,data)=>{
-    if(!validPage(event)||!data||!isSiteUrl(data.url))return;
-    const string = value=>String(value||'').replace(/[\x00-\x1f]/g,'').slice(0,240);
-    if(page.episode!==string(data.episode)){page={...page,time:undefined,duration:undefined,playing:false,hasPlayback:false};}
-    page={...page,url:data.url,title:string(data.title)||'Anime Sama',episode:string(data.episode),season:string(data.season),language:string(data.language),episodeTitle:string(data.episodeTitle),anime:data.anime===true,image:/^https:\/\//.test(data.image||'')?String(data.image).slice(0,1000):''};
-    if(isAnime(page)&&page.episode&&!error){
-      const entry={url:page.url,title:page.title,episode:page.episode,image:page.image,anime:true,season:page.season,updatedAt:Date.now()};
-      libraryStore.set('recent',[entry,...libraryStore.get('recent',[]).filter(x=>x.url!==entry.url)].slice(0,40));
-    }
-    scheduleRpc();send();
+  ctx.updateRpc();
+  ctx.discoverDomain();
+  if (pendingAppLink) dispatchAppLink(pendingAppLink);
+  else ctx.navigate(siteUrl());
+
+  app.on('second-instance', (_event, argv) => {
+    const link = argv.map(parseAppLink).find(Boolean);
+    if (link) dispatchAppLink(link);
+    else ctx.focus();
   });
-  const playbackTimer=setInterval(async()=>{
-    if(!isAnime(page)||sampling||wc.isDestroyed()||!isSiteUrl(wc.getURL())||!new URL(page.url).pathname.startsWith('/catalogue/'))return;
-    sampling=true;const observedUrl=page.url;
-    try{const sample=await sampleFrames(wc);if(!sample||observedUrl!==page.url)return;
-      const key=progressKey(page),v=sample.value;const saved=progress.get(key);
-      if(restoredKey!==key){restoredKey=key;if(saved&&saved.time>10&&saved.time<saved.duration-15&&v.time<5){await seekFrame(sample.frame,saved.time);return;}}
-      page={...page,time:v.time,duration:v.duration,rate:v.rate,playing:!v.paused,hasPlayback:true};
-      if(v.time>2)progress.set(key,{time:v.time,duration:v.duration,updatedAt:Date.now()});
-      scheduleRpc();send();
-    }catch{}finally{sampling=false;}
-  },3000);playbackTimer.unref();
-  handleFavorites();
-  function handleFavorites(){ipcMain.on('samani:site-favorite',(event,data)=>{
-    if(!validPage(event)||data?.url!==page.url||!isAnime(page))return;
-    const entry=favoriteEntry(page),items=normalizeFavorites(libraryStore.get('favorites',[])).filter(item=>item.id!==entry.id);
-    if(data.added===true)items.unshift(entry);libraryStore.set('favorites',items.slice(0,100));send();
-  });}
-  const desktopUrl = pathToFileURL(join(__dirname,'desktop/index.html')).href;
-  const trusted = event => !window.isDestroyed() && !window.webContents.isDestroyed() && event.sender===window.webContents && event.senderFrame && event.senderFrame===window.webContents.mainFrame && event.senderFrame.url.split('#')[0]===desktopUrl;
-  const handle=(channel,callback)=>ipcMain.handle(channel,(event,...args)=>{if(!trusted(event))throw new Error('Untrusted desktop request');return callback(...args);});
-  handle('samani:bootstrap',()=>state());
-  handle('samani:update',action=>updates.action(action));
-  handle('samani:navigate',route=>{
-    if(route==='resume'){const item=libraryStore.get('recent',[]).find(item=>item.episode);if(!item)return false;pendingResume=item;return navigate(item.url);}
-    const routes={home:SITE_URL,catalogue:`${SITE_URL}/catalogue/`,planning:`${SITE_URL}/planning/`,profile:`${SITE_URL}/profil/`,help:`${SITE_URL}/aide/`};
-    return navigate(routes[route]||(isSiteUrl(route)?route:SITE_URL));
+  app.on('activate', () => window.show());
+  app.on('before-quit', () => {
+    ctx.quitting = true;
   });
-  handle('samani:panel',value=>{panel=value===true;visibility();});
-  handle('samani:action',action=>{
-    if(action==='back'&&wc.navigationHistory.canGoBack())wc.navigationHistory.goBack();
-    else if(action==='forward'&&wc.navigationHistory.canGoForward())wc.navigationHistory.goForward();
-    else if(action==='reload')reload();
-    else if(action==='browser')safeExternal(error?.url||page.url||SITE_URL);
-    else if(action==='cinema')toggleCinema();
-    else if(action==='guide-open'){if(config.get('guideV1Complete',false))return;guiding=true;visibility();}
-    else if(action==='guide-complete'){guiding=false;config.set('guideV1Complete',true);send();}
-    else if(action==='intro-done'){intro=false;visibility();}
-    else if(action==='fullscreen')window.setFullScreen(!window.isFullScreen());
-    else if(action==='source')safeExternal(repository);
-    else if(action==='jad')safeExternal('https://github.com/JustAJad');
-    else if(action==='anime-sama')safeExternal('https://anime-sama.to/');
-    else if(action==='alex')safeExternal('https://github.com/AlexAnimateMp4/anime-sama-fr-desktop');
-    else if(action==='raphael')safeExternal('https://github.com/raphael-as/anime-sama-fr-desktop');
-    else if(action==='downloads')safeExternal(`${repository}/releases`);
-    else if(action==='report')safeExternal(`${repository}/issues/new/choose`);
+}
+
+if (app.requestSingleInstanceLock()) {
+  startup().catch(error => {
+    console.error(error);
+    app.exit(1);
   });
-  handle('samani:preferences',patch=>{
-    if(!patch||typeof patch!=='object'||Array.isArray(patch))return state();
-    const previous=preferences;
-    // Only the native media picker can grant a new background file.
-    const {media,...safePatch}=patch;
-    preferences=sanitize(safePatch,preferences);config.set('preferences',preferences);
-    window.setAlwaysOnTop(preferences.alwaysOnTop);
-    if(!preferences.rememberWindow)config.delete('window');
-    if(preferences.startAtLogin!==previous.startAtLogin && ['win32','darwin'].includes(process.platform))app.setLoginItemSettings({openAtLogin:preferences.startAtLogin});
-    if(preferences.language!==previous.language)setMenu();
-    applyWebsite();updateRpc();send();return state();
-  });
-  handle('samani:media',async kind=>{
-    if(!['image','video'].includes(kind))return state();
-    const result=await dialog.showOpenDialog(window,{title:t('chooseMedia'),properties:['openFile'],filters:[{name:t(kind),extensions:kind==='video'?['mp4','webm']:['png','jpg','jpeg','webp']}]});
-    if(result.canceled)return state();
-    const source=result.filePaths[0];const extension=extname(source).toLowerCase();
-    if(!(kind==='video'?['.mp4','.webm']:['.png','.jpg','.jpeg','.webp']).includes(extension))throw new Error(t('invalidMedia'));
-    if(statSync(source).size>250*1024*1024)throw new Error(t('mediaTooLarge'));
-    const id=randomBytes(16).toString('hex')+extension;copyFileSync(source,join(mediaDir,id));
-    preferences=sanitize({...preferences,media:id,background:kind});config.set('preferences',preferences);send();return state();
-  });
-  handle('samani:library',(action,url)=>{
-    if(action==='clear-recent')libraryStore.set('recent',[]);
-    else if(action==='favorite'){
-      const show=animeIdentity(url||page.url);if(!show)return state();
-      const items=normalizeFavorites(libraryStore.get('favorites',[])),exists=items.some(item=>item.id===show.id);
-      if(exists)libraryStore.set('favorites',items.filter(item=>item.id!==show.id));
-      else {if(!isAnime(page)||show.id!==animeIdentity(page.url)?.id||loading||error)return state();libraryStore.set('favorites',[favoriteEntry(page),...items].slice(0,100));}
-      if(show.id===animeIdentity(wc.getURL())?.id)wc.send('samani:favorite-request',{url:wc.getURL(),added:!exists});
-    }
-    send();return state();
-  });
-  ipcMain.on('samani:bounds',(event,value)=>{
-    if(!trusted(event)||!value||!['x','y','width','height'].every(key=>Number.isFinite(value[key])))return;
-    const [width,height]=window.getContentSize();
-    const x=Math.max(0,Math.min(width,Math.round(value.x))),y=Math.max(0,Math.min(height,Math.round(value.y)));
-    bounds={x,y,width:Math.max(0,Math.min(width-x,Math.round(value.width))),height:Math.max(0,Math.min(height-y,Math.round(value.height)))};visibility();
-  });
-  const keyboard=(event,input)=>{
-    if(input.type!=='keyDown')return;
-    const key=input.key.toLowerCase();const control=input.control||input.meta;
-    if(control&&key==='b'){event.preventDefault();window.webContents.send('samani:command','sidebar');}
-    if(control&&input.shift&&key==='f'){event.preventDefault();toggleCinema();}
-    if(control&&key==='k'){event.preventDefault();window.webContents.send('samani:command','quick');}
-    if(key==='escape'&&cinema){cinema=false;send();}
-  };
-  wc.on('before-input-event',keyboard);window.webContents.on('before-input-event',keyboard);
-  window.webContents.on('will-navigate',event=>event.preventDefault());window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
-  window.on('resize',()=>{if(preferences.rememberWindow&&!window.isFullScreen())config.set('window',window.getNormalBounds());});
-  window.on('close',event=>{if(preferences.minimizeToTray&&!quitting){event.preventDefault();window.hide();}});
-  window.on('closed',()=>{clearTimeout(rpcTimer);clearInterval(playbackTimer);presence.stop();tray?.destroy();if(!wc.isDestroyed())wc.close();});
-  try{tray=new Tray(join(__dirname,'icon.png'));tray.setToolTip('Anime Samani');tray.on('double-click',()=>window.show());}catch{/* A tray service is optional on Linux. */}
-  setMenu();
-  await window.loadFile(join(__dirname,'desktop/index.html'));ready=true;send();window.show();
-  // Never let a stuck renderer or slow network trap the user in the intro.
-  const introFallback=setTimeout(()=>{intro=false;visibility();},preferences.reducedMotion?300:3000);introFallback.unref();
-  dispatchAppLink=link=>{pendingResume=link.episode?link:null;navigate(link.url);if(window.isMinimized())window.restore();window.show();window.focus();};
-  if(app.isPackaged){if(process.env.PORTABLE_EXECUTABLE_FILE)app.setAsDefaultProtocolClient(pkg.protocol,process.env.PORTABLE_EXECUTABLE_FILE);else app.setAsDefaultProtocolClient(pkg.protocol);}
-  updateRpc();if(pendingAppLink)dispatchAppLink(pendingAppLink);else navigate(SITE_URL);
-  app.on('second-instance',(_event,argv)=>{const link=argv.map(parseAppLink).find(Boolean);if(link)dispatchAppLink(link);else{if(window.isMinimized())window.restore();window.show();window.focus();}});
-  app.on('activate',()=>window.show());
-  app.on('before-quit',()=>{quitting=true;});
-};
-if(app.requestSingleInstanceLock())startup().catch(error=>{console.error(error);app.exit(1);});else app.quit();
-app.on('window-all-closed',()=>app.quit());
+} else {
+  app.quit();
+}
+app.on('window-all-closed', () => app.quit());
