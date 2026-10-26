@@ -9,14 +9,11 @@ Samani is a fork of [AlexAnimateMp4's](https://github.com/AlexAnimateMp4/anime-s
 
 ## New in 1.1
 
-- **Configurable website address**: checks anime-sama.pw at startup, every 24 hours and after a loading failure. Samani suggests an address; you choose when to apply it. Manual entry remains available.
-- **Fewer ads**: known ad slots are hidden, known ad networks are filtered and automatic external redirects are blocked. Player frames are not blocked as a group.
-- **Your colors inside the site**: supported backgrounds and panels follow Samani’s theme.
-- **Resource maintenance**: old backgrounds are removed, playback positions are capped at 500, window resizing writes less often and the font is injected once per page.
+A configurable website address, fewer ads, your colors inside the site,
+and **optimizations and bug fixes** to improve how the app manages resources.
+Custom backgrounds remain available; cleanup only removes unused copies stored by the app.
 
-Find **Automatically check for new addresses**, **Hide advertisements** and **Apply my colors to the website** in **Settings → General**. Filtering cannot remove every ad; disable it if a player stops working. External player themes remain independent.
-
-[1.1 guide](docs/releases/1.1.0.md) · [Technical documentation](docs/DEVELOPMENT.md)
+[Full 1.1 changelog](docs/releases/1.1.0.md#english) · [Release and downloads](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
 
 ## Installation
 
@@ -52,6 +49,11 @@ In **Settings → Personalization**, pick an image or video smaller than **250 M
 Background videos stay muted and can pause while you watch an episode. Samani
 keeps a copy on your PC, so moving the original file won’t break the background.
 Supported formats are PNG, JPEG, WebP, MP4 and WebM. If a video won’t play, try WebM.
+
+Find **Automatically check for new addresses**, **Hide advertisements** and
+**Apply my colors to the website** in **Settings → General**.
+Filtering cannot remove every ad; disable it if a player stops working.
+External player themes remain independent.
 
 For **Discord**, open the desktop client, then Samani. It’s already configured;
 you don’t need a token or password. Settings let you hide the title and episode,
