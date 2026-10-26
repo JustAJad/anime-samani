@@ -48,3 +48,7 @@ Before claiming live compatibility, check the current website, each external pla
 ## Installer filename
 
 Setup uses `Anime-Samani-Setup-x64.exe` and its matching `.blockmap` across releases. Keep the internal package version and updater version: they determine whether an update is newer. Portable and ZIP filenames remain versioned. The stable download link is `https://github.com/JustAJad/anime-samani/releases/latest/download/Anime-Samani-Setup-x64.exe`. The 1.1 migration renames existing installer assets without rebuilding them and updates `latest.yml` and `SHA256SUMS.txt` together.
+
+## Release text and technical history
+
+`RELEASE-NOTES.md` (French/English) and `RELEASE-NOTES.ja.md` are the public release text. The release-note sync uses the former for the GitHub description and attached notes. Keep same-version rebuild details in `docs/releases/1.1.0.md`, `docs/releases/1.1.0.ja.md` and `docs/SIZE.md`, rather than the public release text.
