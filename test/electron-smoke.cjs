@@ -285,9 +285,12 @@ require('../index');
       ),
     'ad filter can be disabled'
   );
-  assert.equal(
-    await content.executeJavaScript('getComputedStyle(document.body).backgroundColor'),
-    'rgb(24, 27, 32)'
+  await until(
+    async () =>
+      await content.executeJavaScript(
+        'getComputedStyle(document.body).backgroundColor === "rgb(24, 27, 32)"'
+      ),
+    'original website background restored'
   );
   await ui('window.samani.preferences({blockAds:true,websiteTheme:true})');
   await until(
