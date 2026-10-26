@@ -49,3 +49,17 @@ Le filtrage ne supprime pas toutes les publicités ; désactive-le si un lecteur
 Windows 10/11 x64. Source et SHA-256 inclus / Source and SHA-256 included. Fichiers non signés / Unsigned downloads.
 
 Fait avec ❤️ / Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Merci / Thanks: [AlexAnimateMp4](https://github.com/AlexAnimateMp4), [raphael-as](https://github.com/raphael-as), [Bourinou](https://github.com/Bourinou), [Anime Sama](https://anime-sama.to/). Discord : **justajade**.
+
+## Rebuild de la 1.1
+
+- Dans les programmes Windows, le nom devient **Anime Samani**, sans numéro ajouté, et l’éditeur devient **Just A Jad**.
+- Compression sans perte renforcée des téléchargements et retrait de deux fichiers inutilisés du paquet. Les fonctionnalités, codecs et langues sont conservés. La compression ne réduit pas la taille des fichiers une fois installés.
+- La version reste **1.1.0**. Si tu as déjà la 1.1, relance le nouveau **Setup** pour recevoir ce rebuild : une mise à jour automatique ne détecte pas une version identique. Le profil reste conservé.
+- Le code de ce rebuild est fourni dans **Source.zip** ; son commit est indiqué dans **package-info.json** et **SIZE-REPORT.json**. Le tag original est conservé.
+
+## 1.1 rebuild
+
+- Windows Programs now lists **Anime Samani**, without an appended version, with **Just A Jad** as publisher.
+- Stronger lossless download compression and two unused packaged files removed. Features, codecs and languages are retained. Compression does not shrink the installed files.
+- Version stays **1.1.0**. If you already have 1.1, run the new **Setup** to receive this rebuild: automatic updates do not detect an identical version. Your profile is retained.
+- Matching rebuild code is in **Source.zip**; its commit is recorded in **package-info.json** and **SIZE-REPORT.json**. The original tag is retained.

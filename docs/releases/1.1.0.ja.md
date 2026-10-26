@@ -27,3 +27,10 @@
 Windows 10/11 x64 向け。ソースと SHA-256 を同梱。実行ファイルは未署名です。
 
 [Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。[AlexAnimateMp4](https://github.com/AlexAnimateMp4)、[raphael-as](https://github.com/raphael-as)、[Bourinou](https://github.com/Bourinou)、[Anime Sama チーム](https://anime-sama.to/) に感謝！ Discord：**justajade**。
+
+## 1.1 の再ビルド
+
+- Windows のプログラム一覧では、バージョン番号を付けず **Anime Samani** と表示し、発行元を **Just A Jad** に変更します。
+- ダウンロードの可逆圧縮を強化し、未使用ファイル2点をパッケージから除外。機能・コーデック・言語は維持します。展開後の容量は圧縮では減りません。
+- バージョンは **1.1.0** のままです。すでに1.1を利用している場合は新しい **Setup** を実行してください。同じバージョンの再ビルドは自動更新では検出しません。プロファイルは保持します。
+- 対応するソースは **Source.zip** に同梱し、コミットを **package-info.json** と **SIZE-REPORT.json** に記録します。元のタグは保持します。

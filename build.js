@@ -15,10 +15,11 @@ builder
       productName: pkg.displayName,
       copyright: 'Anime Samani. Original application © 2023 AlexAnimateMp4. MPL-2.0.',
       asar: true,
+      compression: 'maximum',
       protocols: [{ name: 'Anime Samani', schemes: ['anime-samani'] }],
       publish: [{ provider: 'github', owner: 'JustAJad', repo: 'anime-samani' }],
       directories: { output: 'dist' },
-      files: [...pkg.files, 'node_modules/**/*'],
+      files: [...pkg.files, '!assets/branding/wordmark.png', 'node_modules/**/*'],
       extraFiles: [
         { from: 'NOTICE.md', to: 'NOTICE.md' },
         { from: 'LICENSE', to: 'APP-LICENSE.txt' },
@@ -27,7 +28,7 @@ builder
       win: {
         icon: 'icon.ico',
         executableName: pkg.exeName,
-        signtoolOptions: { publisherName: 'Anime Samani' },
+        signtoolOptions: { publisherName: 'Just A Jad' },
         signAndEditExecutable: true,
         signExecutable: false,
         verifyUpdateCodeSignature: false,
@@ -35,6 +36,7 @@ builder
       },
       portable: { artifactName: 'Anime-Samani-${version}-Portable-${arch}.${ext}' },
       nsis: {
+        uninstallDisplayName: 'Anime Samani',
         oneClick: false,
         installerHeader: 'assets/installer/header.bmp',
         installerSidebar: 'assets/installer/sidebar.bmp',

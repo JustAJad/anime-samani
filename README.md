@@ -28,6 +28,8 @@ Setup garde le nom `Anime-Samani-Setup-x64.exe` d’une version à l’autre ; P
 La version actuelle est la **1.1**. Les téléchargements ne sont pas signés. Windows peut donc
 afficher un avertissement. Le code source et les sommes SHA-256 sont aussi fournis.
 
+**Taille de l’app :** la compression réduit le téléchargement, pas la taille installée. Le paquet 1.1 initial occupe environ 379 Mo après extraction, dont environ 250 Mo pour l’exécutable Electron. Descendre sous 100 Mo installés sans retirer de composants ou changer de moteur n’est pas possible. [Détails](docs/SIZE.md).
+
 ## Ce qu’il y a dans l’app
 
 - La fonctionalité des **favoris**, avec leurs couvertures et une bannière pour reprendre le dernier épisode.

@@ -28,6 +28,8 @@ Setup keeps the filename `Anime-Samani-Setup-x64.exe` across releases; Portable 
 The current version is **1.1**. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
 Source code and SHA-256 checksums are included too.
 
+**App size:** compression reduces the download, not the installed size. The initial 1.1 package expands to about 379 MB, including about 250 MB for the Electron executable. Getting below 100 MB installed would require removing components or changing engines. [Details](docs/SIZE.md).
+
 ## Features
 
 - **Favorites** with covers and a banner to resume your last episode.

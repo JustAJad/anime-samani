@@ -18,7 +18,7 @@
   "homepage": "https://github.com/JustAJad/anime-samani#readme",
   "license": "MPL-2.0",
   "author": {
-    "name": "Jad",
+    "name": "Just A Jad",
     "url": "https://github.com/JustAJad"
   },
   "contributors": [
@@ -39,7 +39,6 @@
     "desktop",
     "lib",
     "assets/branding",
-    "icon.ico",
     "icon.png",
     "index.js",
     "preload.js",
