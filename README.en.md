@@ -28,16 +28,13 @@ Source code and SHA-256 checksums are included too.
 
 ## Features
 
-- **Anime favorites** with covers and a banner to resume your last episode.
-- **Image or video backgrounds**, with blur, brightness and opacity controls.
-- A few **color palettes**, including the logos’ peach–pink gradient.
-- **Cinema mode on episode pages**, fullscreen and quick access with `Ctrl + K` (click outside to close).
-- **Discord presence** with the title and episode, if you want to share them.
-- An optional **startup intro** and a **first-run guide** you can skip.
-- **French, English and Japanese**, selectable in settings.
-- **Beckman** for headings and buttons, with a readable mixed-case font for other text.
+- **Favorites** with covers and a banner to resume your last episode.
+- **Image or video backgrounds**, with blur, brightness and transparency.
+- A few **color palettes**, including the Samani theme’s peach–pink gradient.
+- **Cinema mode**, fullscreen and quick access with `Ctrl + K` (click outside to close).
+- Updated **Discord presence** with the title and episode, if you want to share them.
 - **Resume** opens your last episode and restores playback position where supported.
-- **In-app updates** for Setup installations: download, then restart to apply.
+- **In-app updates** with the **Setup** version.
 
 ![Samani settings](assets/img/readme/samani-personalization-en.png)
 
@@ -114,13 +111,11 @@ packages; on Windows, `npm run build:win:installer` adds Setup. Files go to `dis
 
 ---
 
-Made with ❤️ by [Just A Jad](https://github.com/JustAJad). Huge thanks to
+Made with ❤️ by [Just A Jad](https://github.com/JustAJad). A huge thanks to
 [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) for the
-original app and [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
-for keeping it going with his own fork.
+original app, [raphael-as](https://github.com/raphael-as/anime-sama-fr-desktop)
+for the work on his own fork, and [Bourinou](https://github.com/Bourinou) for contributing configurable domains, resource fixes and code organization!
 
-Thanks to [Bourinou](https://github.com/Bourinou) for configurable domains, resource fixes and code organization, integrated from [PR #2](https://github.com/JustAJad/anime-samani/pull/2).
-
-Discord: **justajade**. Thanks also to the [Anime Sama team](https://anime-sama.to/) for the website and their work!
+***Discord: justajade***. Thanks also to the [Anime Sama team](https://anime-sama.to/) for the website and their work!
 
 [MPL-2.0 license](LICENSE). ***Samani is an independent project, not affiliated to Anime Sama and Discord.***
