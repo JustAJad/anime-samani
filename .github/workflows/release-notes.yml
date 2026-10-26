@@ -1,0 +1,26 @@
+name: Sync 1.1 release notes
+on:
+  push:
+    branches: [main]
+    paths: [docs/releases/1.1.0.md, .github/workflows/release-notes.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: samani-release-notes-1.1
+  cancel-in-progress: false
+jobs:
+  notes:
+    if: github.repository == 'JustAJad/anime-samani' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: main
+      - name: Update the release description from the versioned changelog
+        run: gh release edit v1.1.0 --repo "$GITHUB_REPOSITORY" --notes-file docs/releases/1.1.0.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
