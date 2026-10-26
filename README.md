@@ -12,9 +12,12 @@ Anime Samani est un fork de l'application de [AlexAnimateMp4](https://github.com
 - **Adresse du site configurable** : recherche sur anime-sama.pw au lancement, toutes les 24 h et après une erreur de chargement. Samani propose l’adresse ; tu choisis quand l’appliquer. La saisie manuelle reste disponible.
 - **Moins de publicités** : emplacements connus masqués, requêtes vers les régies connues filtrées et redirections publicitaires bloquées. Les lecteurs ne sont pas bloqués en bloc.
 - **Tes couleurs dans le site** : fonds et panneaux compatibles suivent la personnalisation de Samani.
-- **Entretien des ressources** : suppression des anciens fonds, 500 positions de lecture maximum, moins d’écritures pendant le redimensionnement et injection unique de la police.
+- **De l'optimisation et des bugs squashés** :
+- Suppression des anciens fonds
+- 500 positions de lecture maximum
+- Moins d’écritures pendant le redimensionnement et un injection unique de la police.
 
-Les options **Chercher automatiquement les nouvelles adresses**, **Masquer les publicités** et **Appliquer mes couleurs au site** sont dans **Paramètres → Général**. Le filtre ne garantit pas de supprimer toutes les publicités ; désactive-le si un lecteur ne fonctionne plus. Le thème des lecteurs externes reste indépendant.
+Les options **Chercher automatiquement les nouvelles adresses**, **Masquer les publicités** et **Appliquer mes couleurs au site** sont dans **Paramètres → Général**. Le filtre ne va pas garantir de supprimer toutes les publicités ; désactive-le si un lecteur ne fonctionne plus. Le thème des lecteurs externes reste indépendant.
 
 [Guide de la version 1.1](docs/releases/1.1.0.md) · [Documentation technique](docs/DEVELOPMENT.md)
 
