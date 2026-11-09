@@ -193,10 +193,49 @@ kbd {
   color: #a5a4b1;
   padding: 12px 14px;
   font-size: 13px;
+  position: relative;
+  overflow: hidden;
+}
+.sidebar nav button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 20%, #ffffff0d 50%, transparent 80%);
+  opacity: 0;
+  transform: translateX(-35%);
+  transition:
+    opacity 0.22s ease,
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.sidebar nav button:hover::before {
+  opacity: 1;
+  transform: translateX(20%);
+}
+.sidebar nav .nav-icon {
+  display: inline-grid;
+  place-items: center;
+  transform-origin: center;
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1),
+    color 0.2s ease,
+    filter 0.25s ease;
 }
 .sidebar nav button:hover {
   color: white;
   background: #ffffff06;
+}
+.sidebar nav button:hover .nav-icon {
+  transform: translateY(-2px) scale(1.08);
+  filter: drop-shadow(0 4px 7px color-mix(in srgb, var(--a) 30%, transparent));
+}
+.sidebar nav button.is-clicking {
+  color: #fffaf3;
+  background: color-mix(in srgb, var(--a) 11%, transparent);
+}
+.sidebar nav button.is-clicking .nav-icon {
+  filter: drop-shadow(0 3px 9px color-mix(in srgb, var(--a) 48%, transparent));
 }
 .sidebar nav button.active {
   color: #fff5e9;
@@ -206,6 +245,10 @@ kbd {
     color-mix(in srgb, var(--b) 6%, transparent)
   );
   box-shadow: inset 2px 0 var(--a);
+}
+.sidebar nav button.active .nav-icon {
+  color: var(--a);
+  filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--a) 38%, transparent));
 }
 .nav-icon {
   font-size: 20px;
@@ -765,11 +808,41 @@ input[type='text'] {
 .primary {
   color: #24170c;
   background: linear-gradient(120deg, var(--a), var(--b));
+  background-size: 170% 170%;
+  background-position: 0 50%;
   border: 0;
   font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow:
+    inset 0 1px #ffffff55,
+    0 6px 18px color-mix(in srgb, var(--a) 16%, transparent);
+}
+.primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 32%, #ffffff55 50%, transparent 68%);
+  transform: translateX(-125%);
+  transition: transform 0.52s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
 }
 .primary:hover {
-  background: linear-gradient(120deg, var(--b), var(--a));
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px #ffffff66,
+    0 10px 26px color-mix(in srgb, var(--a) 25%, transparent);
+}
+.primary:hover::before {
+  transform: translateX(125%);
+}
+.primary:active {
+  transform: translateY(0) scale(0.985);
+  box-shadow:
+    inset 0 2px 5px #00000022,
+    0 4px 12px color-mix(in srgb, var(--a) 18%, transparent);
 }
 .about-hero {
   max-width: 650px;

@@ -47,6 +47,7 @@ let guideBusy = false,
   guideIndex = 0,
   panelTransitionId = 0,
   tabTransitionId = 0,
+  motionReady = false,
   previousFocus;
 const guideSteps = ['Welcome', 'Browse', 'Library', 'Appearance', 'Discord', 'Watch', 'Updates'];
 const t = key => state?.dictionary[key] || key;
@@ -143,6 +144,7 @@ function syncBackground() {
 }
 function animate(element, kind = 'in') {
   if (
+    !motionReady ||
     state?.preferences.reducedMotion ||
     window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
     !element
@@ -448,6 +450,48 @@ async function navigate(route) {
   await setPanel('');
   await call(api.navigate(route));
 }
+async function sidebarAction(button, action) {
+  if (button.classList.contains('is-clicking')) return;
+  const reduceMotion =
+    state?.preferences.reducedMotion ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  button.classList.add('is-clicking');
+  if (reduceMotion) {
+    await action();
+    button.classList.remove('is-clicking');
+    return;
+  }
+  const icon = button.querySelector('.nav-icon');
+  const animations = [
+    button.animate(
+      [
+        { transform: 'translateX(0) scale(1)' },
+        { transform: 'translateX(2px) scale(.985)', offset: 0.38 },
+        { transform: 'translateX(0) scale(1)' },
+      ],
+      { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' }
+    ),
+  ];
+  if (icon)
+    animations.push(
+      icon.animate(
+        [
+          { transform: 'translateY(0) scale(1) rotate(0)' },
+          { transform: 'translateY(1px) scale(.82) rotate(-4deg)', offset: 0.34 },
+          { transform: 'translateY(-1px) scale(1.1) rotate(2deg)', offset: 0.66 },
+          { transform: 'translateY(0) scale(1) rotate(0)' },
+        ],
+        { duration: 360, easing: 'cubic-bezier(.2,.9,.2,1)' }
+      )
+    );
+  await new Promise(resolve => setTimeout(resolve, 115));
+  const navigation = Promise.resolve(action());
+  await Promise.all([
+    navigation,
+    ...animations.map(animation => animation.finished.catch(() => {})),
+  ]);
+  button.classList.remove('is-clicking');
+}
 async function patch(value) {
   const next = await call(api.preferences(value));
   if (next) render(next);
@@ -505,9 +549,12 @@ async function closeQuick() {
 }
 function intro() {
   const element = $('#intro');
+  const enableMotion = () =>
+    requestAnimationFrame(() => requestAnimationFrame(() => (motionReady = true)));
   if (!state.preferences.intro) {
     element.hidden = true;
     api.action('intro-done');
+    enableMotion();
     if (state.needsGuide) openGuide();
     return;
   }
@@ -517,6 +564,7 @@ function intro() {
       () => {
         element.hidden = true;
         api.action('intro-done');
+        enableMotion();
         if (state.needsGuide) openGuide();
       },
       state.preferences.reducedMotion ? 0 : 450
@@ -524,11 +572,16 @@ function intro() {
   };
   setTimeout(end, state.preferences.intro ? (state.preferences.reducedMotion ? 180 : 1600) : 0);
 }
-$$('[data-route]').forEach(button => (button.onclick = () => navigate(button.dataset.route)));
+$$('[data-route]').forEach(
+  button => (button.onclick = () => sidebarAction(button, () => navigate(button.dataset.route)))
+);
 $$('[data-panel]').forEach(
   button =>
-    (button.onclick = () =>
-      button.dataset.panel === 'quick' ? showQuick() : setPanel(button.dataset.panel))
+    (button.onclick = () => {
+      const action = () =>
+        button.dataset.panel === 'quick' ? showQuick() : setPanel(button.dataset.panel);
+      return button.closest('.sidebar') ? sidebarAction(button, action) : action();
+    })
 );
 $$('.close-panel').forEach(button => (button.onclick = () => setPanel('')));
 $$('[data-action]').forEach(
