@@ -7,13 +7,13 @@
 
 Samani is a fork of [AlexAnimateMp4's](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) desktop app, and brings many more features!
 
-## New version (1.1) out!
+## Anime Samani 2.0 is out!
 
-A configurable website address, fewer ads, your colors inside the site,
-and **optimizations and bug fixes** to improve how the app manages resources.
-Custom backgrounds remain available; cleanup only removes unused copies stored by the app.
+Livelier navigation inspired by Lively Wallpaper motion, smoother buttons and icons,
+a stable startup and crisp branding at every size. Favorites, custom backgrounds,
+domains, resume history and settings stay compatible.
 
-[Full 1.1 changelog](docs/releases/1.1.0.md#english) · [Release and downloads](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
+[Full 2.0 changelog](docs/releases/2.0.0.md#english) · [Release and downloads](https://github.com/JustAJad/anime-samani/releases/tag/v2.0.0)
 
 ## Installation
 
@@ -25,8 +25,10 @@ For **64-bit Windows 10 or 11**. Open [Releases](https://github.com/JustAJad/ani
 
 Setup keeps the filename `Anime-Samani-Setup-x64.exe` across releases; Portable and ZIP include their version number.
 
-The current version is **1.1**. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
+The current version is **2.0**. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
 Source code and SHA-256 checksums are included too.
+
+[Older versions](docs/OLDER-VERSIONS.md#english)
 
 ## Features
 

@@ -1,29 +1,28 @@
-# Anime Samani 1.1 — 変更履歴
+# Anime Samani 2.0 — 変更履歴
 
-[Français / English](https://github.com/JustAJad/anime-samani/blob/main/RELEASE-NOTES.md) · [リリースとダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
+[Français / English](https://github.com/JustAJad/anime-samani/blob/main/RELEASE-NOTES.md) · [ダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v2.0.0)
 
-- anime-sama.pw の候補からドメインを選択するか、手動入力できます。起動時・24時間ごと・読み込みエラー時に自動確認し、変更は利用者が選びます。
-- お気に入り、再開、エピソード情報、Discord のリンクが選択ドメインに追従します。
-- 既知の広告ネットワーク・広告枠をフィルタリングし、ポップアップと外部への自動リダイレクトをブロックします。
-- 対応するサイトの背景・パネルに Samani の配色と透明度を適用。設定 → 一般でフィルターとテーマを切り替えられます。
-- **最適化と不具合修正：**
-  - Samani が保存した、置き換え済みの背景コピーを整理。以前のバージョンが残した未使用のコピーも対象です。カスタム背景は引き続き利用でき、現在の背景と元ファイルは保持します。
-  - 再生位置は最新500エピソードまで保存。
-  - ウィンドウの大きさを1ピクセルごとに保存せず、サイズ変更が落ち着いてから保存。
-  - フォントはページごとに1回だけ読み込み、スタイルシートを重複させずに置き換え。
-  - 外部への自動リダイレクトとポップアップをブロックし、外部リンクの連続起動を制限。
-- ドメイン変更後のエピソード情報とお気に入りの連動を修正。
-- ポータルの HTML 属性の順序・引用符の違いに対応。同時検索の共有、直近の結果の再利用、検索失敗時の前回の一覧の保持。
-- メインプロセスをモジュール化。ESLint・Prettier、回帰テスト、3言語の資料を更新。
+V2 は既存の機能を残したまま、Samani の操作感をより滑らかにします。
 
-ドメイン設定、リソース修正、コード整理を提供した [Bourinou](https://github.com/Bourinou) に感謝！ [PR #2](https://github.com/JustAJad/anime-samani/pull/2) から統合しました。
+- Lively Wallpaper の動きを参考にした `DrillIn` 形式のパネル・タブ遷移。
+- サイドバーアイコンにホバー、押下、動作途中のページ切り替え、選択状態への着地を追加。
+- 初期レイアウト中の不要な画面遷移を止め、起動表示を安定化。
+- メインボタンの滑らかなグラデーション、控えめな反射、自然な押下表現。
+- 元のロゴデザインを保持し、アプリ・Windows アイコン・インストーラー向けに高品質なアンチエイリアスで再生成。
+- Windows の「アニメーションを減らす」設定に対応。
+- オリジンをまたぐリダイレクト時の認証情報漏えいを修正した `electron-updater` へ更新。
+- ナビゲーションの連続クリック競合を防止。
 
-**1.0 からの更新：** プロファイル、お気に入り、現在の背景は保持します。アドレスの候補を確認し、変更は利用者が選びます。Setup はアプリ内更新に対応し、Portable と ZIP は手動で置き換えます。
+1.x のお気に入り、再開履歴、カスタム背景、ドメイン、設定は保持されます。
 
-## 制限事項
+## 検証
 
-すべての広告を除去できるわけではありません。再生に問題があればフィルターをオフにしてください。テーマと再開はサイト・プレイヤーに依存します。
+- 47件すべての回帰テストに合格。
+- Electron デスクトップテストに合格。
+- Windows Setup、Portable、ZIP、ソース、SHA-256 チェックサムを同梱。
 
-Windows 10/11 x64 向け。ソースと SHA-256 を同梱。実行ファイルは未署名です。
+Windows 10 / 11 x64。実行ファイルは未署名のため、Windows が発行元不明の警告を表示する場合があります。
+
+[旧バージョン](https://github.com/JustAJad/anime-samani/blob/main/docs/OLDER-VERSIONS.md#日本語)
 
 [Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。[AlexAnimateMp4](https://github.com/AlexAnimateMp4)、[raphael-as](https://github.com/raphael-as)、[Bourinou](https://github.com/Bourinou)、[Anime Sama チーム](https://anime-sama.to/) に感謝！ Discord：**justajade**。

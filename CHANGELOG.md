@@ -2,14 +2,14 @@
 
 [日本語](CHANGELOG.ja.md)
 
-## 2.0.0 (préparation)
+## 2.0.0
 
 - Transitions de navigation retravaillées d’après le mouvement `DrillIn` utilisé par Lively Wallpaper.
 - Démarrage stabilisé : les transitions attendent maintenant la fin de l’introduction et du premier rendu.
 - Icônes de navigation animées au survol et au clic, avec changement de page au milieu du mouvement, et boutons principaux plus fluides.
 - Respect automatique du réglage Windows de réduction des animations.
 - Ressources du logo régénérées depuis le wordmark original avec un anticrénelage haute qualité.
-- Préparation locale de la V2 sans publication de la version.
+- Mise à jour sécurisée d’`electron-updater` et blocage des clics de navigation concurrents.
 
 ## 1.1.0
 

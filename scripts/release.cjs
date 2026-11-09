@@ -76,3 +76,37 @@ execFileSync(
   ],
   { stdio: 'inherit' }
 );
+execFileSync('gh', ['release', 'edit', tag, '--repo', repository, '--latest'], {
+  stdio: 'inherit',
+});
+
+// Keep earlier downloads available without competing with the current release.
+for (const archived of [
+  { tag: 'v1.1.0', title: 'Anime Samani 1.1 · Older version' },
+  { tag: 'v1.0.0', title: 'Anime Samani 1.0 · Older version' },
+]) {
+  const release = releases.find(item => item.tag_name === archived.tag);
+  if (!release) continue;
+  const notice =
+    '> **Older version / Ancienne version / 旧バージョン.** ' +
+    '[Download the latest stable release](https://github.com/JustAJad/anime-samani/releases/latest).';
+  const body = String(release.body || '').startsWith(notice)
+    ? release.body
+    : `${notice}\n\n${release.body || ''}`;
+  execFileSync(
+    'gh',
+    [
+      'api',
+      '--method',
+      'PATCH',
+      `repos/${repository}/releases/${release.id}`,
+      '-f',
+      `name=${archived.title}`,
+      '-f',
+      `body=${body}`,
+      '-f',
+      'make_latest=false',
+    ],
+    { stdio: 'inherit' }
+  );
+}

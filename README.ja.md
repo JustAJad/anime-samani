@@ -7,13 +7,13 @@
 
 Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop) のデスクトップアプリに便利な機能を加えたフォークです！
 
-## 1.1 の新機能
+## Anime Samani 2.0
 
-サイトのアドレス設定、広告の削減、サイトへの配色適用に加え、
-**最適化と不具合修正**でアプリのリソース管理を改善しました。
-カスタム背景は引き続き使えます。削除するのは、アプリ内に保存された未使用のコピーだけです。
+Lively Wallpaper の動きを参考にしたナビゲーション、滑らかなボタンとアイコン、
+安定した起動表示、どのサイズでも鮮明なロゴを追加しました。お気に入り、背景、
+ドメイン、再開履歴、設定はそのまま引き継がれます。
 
-[1.1 の詳しい変更履歴](docs/releases/1.1.0.ja.md) · [リリースとダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v1.1.0)
+[2.0 の詳しい変更履歴](docs/releases/2.0.0.ja.md) · [リリースとダウンロード](https://github.com/JustAJad/anime-samani/releases/tag/v2.0.0)
 
 ## インストール
 
@@ -25,7 +25,9 @@ Anime Samani は、[AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama
 
 Setup のファイル名は更新後も `Anime-Samani-Setup-x64.exe` のままです。Portable と ZIP の名前にはバージョン番号が入ります。
 
-現在のバージョンは **1.1** です。実行ファイルは未署名のため、Windows が警告を表示する場合があります。ソースコードと SHA-256 チェックサムも配布しています。
+現在のバージョンは **2.0** です。実行ファイルは未署名のため、Windows が警告を表示する場合があります。ソースコードと SHA-256 チェックサムも配布しています。
+
+[旧バージョン](docs/OLDER-VERSIONS.md#日本語)
 
 ## アプリでできること
 

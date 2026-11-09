@@ -48,6 +48,7 @@ let guideBusy = false,
   panelTransitionId = 0,
   tabTransitionId = 0,
   motionReady = false,
+  sidebarBusy = false,
   previousFocus;
 const guideSteps = ['Welcome', 'Browse', 'Library', 'Appearance', 'Discord', 'Watch', 'Updates'];
 const t = key => state?.dictionary[key] || key;
@@ -451,46 +452,50 @@ async function navigate(route) {
   await call(api.navigate(route));
 }
 async function sidebarAction(button, action) {
-  if (button.classList.contains('is-clicking')) return;
+  if (sidebarBusy || button.classList.contains('is-clicking')) return;
   const reduceMotion =
     state?.preferences.reducedMotion ||
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  sidebarBusy = true;
   button.classList.add('is-clicking');
-  if (reduceMotion) {
-    await action();
-    button.classList.remove('is-clicking');
-    return;
-  }
-  const icon = button.querySelector('.nav-icon');
-  const animations = [
-    button.animate(
-      [
-        { transform: 'translateX(0) scale(1)' },
-        { transform: 'translateX(2px) scale(.985)', offset: 0.38 },
-        { transform: 'translateX(0) scale(1)' },
-      ],
-      { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' }
-    ),
-  ];
-  if (icon)
-    animations.push(
-      icon.animate(
+  try {
+    if (reduceMotion) {
+      await action();
+      return;
+    }
+    const icon = button.querySelector('.nav-icon');
+    const animations = [
+      button.animate(
         [
-          { transform: 'translateY(0) scale(1) rotate(0)' },
-          { transform: 'translateY(1px) scale(.82) rotate(-4deg)', offset: 0.34 },
-          { transform: 'translateY(-1px) scale(1.1) rotate(2deg)', offset: 0.66 },
-          { transform: 'translateY(0) scale(1) rotate(0)' },
+          { transform: 'translateX(0) scale(1)' },
+          { transform: 'translateX(2px) scale(.985)', offset: 0.38 },
+          { transform: 'translateX(0) scale(1)' },
         ],
-        { duration: 360, easing: 'cubic-bezier(.2,.9,.2,1)' }
-      )
-    );
-  await new Promise(resolve => setTimeout(resolve, 115));
-  const navigation = Promise.resolve(action());
-  await Promise.all([
-    navigation,
-    ...animations.map(animation => animation.finished.catch(() => {})),
-  ]);
-  button.classList.remove('is-clicking');
+        { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' }
+      ),
+    ];
+    if (icon)
+      animations.push(
+        icon.animate(
+          [
+            { transform: 'translateY(0) scale(1) rotate(0)' },
+            { transform: 'translateY(1px) scale(.82) rotate(-4deg)', offset: 0.34 },
+            { transform: 'translateY(-1px) scale(1.1) rotate(2deg)', offset: 0.66 },
+            { transform: 'translateY(0) scale(1) rotate(0)' },
+          ],
+          { duration: 360, easing: 'cubic-bezier(.2,.9,.2,1)' }
+        )
+      );
+    await new Promise(resolve => setTimeout(resolve, 115));
+    const navigation = Promise.resolve(action());
+    await Promise.all([
+      navigation,
+      ...animations.map(animation => animation.finished.catch(() => {})),
+    ]);
+  } finally {
+    button.classList.remove('is-clicking');
+    sidebarBusy = false;
+  }
 }
 async function patch(value) {
   const next = await call(api.preferences(value));
