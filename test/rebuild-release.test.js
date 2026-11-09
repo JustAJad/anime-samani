@@ -27,8 +27,16 @@ function run(rebuildVersion, options = {}) {
               'latest.yml',
               'SHA256SUMS.txt',
             ],
+            readFileSync: path =>
+              String(path).endsWith('SHA256SUMS.txt')
+                ? `${'a'.repeat(64)}  RELEASE-NOTES.md\n`
+                : 'Archived release notes',
+            writeFileSync() {},
+            mkdtempSync: () => 'temporary-release-directory',
+            rmSync() {},
           };
         if (name === 'node:path') return require(name);
+        if (name === 'node:crypto' || name === 'node:os') return require(name);
         if (name.includes('package-info')) return { version };
         return { displayVersion: value => value };
       },

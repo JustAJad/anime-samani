@@ -7,9 +7,14 @@ const { tmpdir } = require('node:os');
 const { createHash } = require('node:crypto');
 const repository = 'JustAJad/anime-samani';
 if (process.env.GITHUB_REPOSITORY !== repository) throw new Error('Unexpected repository');
-const tag = 'v1.1.0';
+const tag = `v${require('../package.json').version}`;
 const notes = readFileSync('RELEASE-NOTES.md', 'utf8');
 const gh = args => execFileSync('gh', args, { encoding: 'utf8' });
+const releases = JSON.parse(gh(['api', `repos/${repository}/releases?per_page=100`]));
+if (!releases.some(release => release.tag_name === tag)) {
+  console.log(`${tag} is not published yet; the release workflow will use the committed notes.`);
+  process.exit(0);
+}
 const dir = mkdtempSync(join(tmpdir(), 'samani-release-text-'));
 try {
   gh([

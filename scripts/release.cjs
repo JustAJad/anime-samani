@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Run by GitHub Actions after Windows tests and packaging pass.
 const { execFileSync } = require('node:child_process');
-const { readdirSync } = require('node:fs');
+const { createHash } = require('node:crypto');
+const { readdirSync, readFileSync, writeFileSync, mkdtempSync, rmSync } = require('node:fs');
+const { tmpdir } = require('node:os');
 const { join } = require('node:path');
 const pkg = require('../release-assets/package-info.json');
 const repository = process.env.GITHUB_REPOSITORY;
@@ -82,7 +84,11 @@ execFileSync('gh', ['release', 'edit', tag, '--repo', repository, '--latest'], {
 
 // Keep earlier downloads available without competing with the current release.
 for (const archived of [
-  { tag: 'v1.1.0', title: 'Anime Samani 1.1 · Older version' },
+  {
+    tag: 'v1.1.0',
+    title: 'Anime Samani 1.1 · Older version',
+    notes: 'docs/releases/1.1.0.md',
+  },
   { tag: 'v1.0.0', title: 'Anime Samani 1.0 · Older version' },
 ]) {
   const release = releases.find(item => item.tag_name === archived.tag);
@@ -90,9 +96,8 @@ for (const archived of [
   const notice =
     '> **Older version / Ancienne version / 旧バージョン.** ' +
     '[Download the latest stable release](https://github.com/JustAJad/anime-samani/releases/latest).';
-  const body = String(release.body || '').startsWith(notice)
-    ? release.body
-    : `${notice}\n\n${release.body || ''}`;
+  const archivedNotes = archived.notes ? readFileSync(archived.notes, 'utf8') : release.body || '';
+  const body = `${notice}\n\n${archivedNotes}`;
   execFileSync(
     'gh',
     [
@@ -109,4 +114,49 @@ for (const archived of [
     ],
     { stdio: 'inherit' }
   );
+  if (archived.notes) {
+    const directory = mkdtempSync(join(tmpdir(), 'samani-older-release-'));
+    try {
+      execFileSync(
+        'gh',
+        [
+          'release',
+          'download',
+          archived.tag,
+          '--repo',
+          repository,
+          '--dir',
+          directory,
+          '--pattern',
+          'SHA256SUMS.txt',
+        ],
+        { stdio: 'inherit' }
+      );
+      const checksumPath = join(directory, 'SHA256SUMS.txt');
+      const notesPath = join(directory, 'RELEASE-NOTES.md');
+      const hash = createHash('sha256').update(archivedNotes).digest('hex');
+      const checksums = readFileSync(checksumPath, 'utf8').replace(
+        /^[a-f0-9]{64}(\s+)RELEASE-NOTES\.md\r?$/gm,
+        `${hash}$1RELEASE-NOTES.md`
+      );
+      writeFileSync(notesPath, archivedNotes);
+      writeFileSync(checksumPath, checksums);
+      execFileSync(
+        'gh',
+        [
+          'release',
+          'upload',
+          archived.tag,
+          '--repo',
+          repository,
+          '--clobber',
+          notesPath,
+          checksumPath,
+        ],
+        { stdio: 'inherit' }
+      );
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }
 }

@@ -1,4 +1,4 @@
-name: Sync 1.1 release notes
+name: Sync current release notes
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: samani-release-notes-1.1
+  group: samani-release-notes-current
   cancel-in-progress: false
 jobs:
   notes:
