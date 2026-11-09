@@ -2,6 +2,13 @@
 
 [Français / English](CHANGELOG.md) · [日本語 README](README.ja.md)
 
+## 2.0.0（準備中）
+
+- Lively Wallpaper の `DrillIn` モーションを参考に、ナビゲーション遷移を刷新しました。
+- Windows の「アニメーションを減らす」設定を自動的に尊重します。
+- 元のワードマークから高品質なアンチエイリアスでロゴ素材を再生成しました。
+- V2 はローカルで準備し、まだ公開していません。
+
 ## 1.1.0
 
 ドメイン選択と自動確認、広告フィルター、サイトへのテーマ適用。[Bourinou](https://github.com/Bourinou) の [PR #2](https://github.com/JustAJad/anime-samani/pull/2) によるリソース修正とコード整理。リンク付き謝辞、3言語の資料、回帰テストを更新。

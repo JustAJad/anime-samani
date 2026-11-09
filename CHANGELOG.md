@@ -2,6 +2,13 @@
 
 [日本語](CHANGELOG.ja.md)
 
+## 2.0.0 (préparation)
+
+- Transitions de navigation retravaillées d’après le mouvement `DrillIn` utilisé par Lively Wallpaper.
+- Respect automatique du réglage Windows de réduction des animations.
+- Ressources du logo régénérées depuis le wordmark original avec un anticrénelage haute qualité.
+- Préparation locale de la V2 sans publication de la version.
+
 ## 1.1.0
 
 Domain selection and automatic discovery, ad filtering and website theme integration. Resource fixes and modular main process contributed by [Bourinou](https://github.com/Bourinou) in [PR #2](https://github.com/JustAJad/anime-samani/pull/2). Linked contributor credits, French/English/Japanese docs and regression checks refreshed. / Domaines et détection automatique, filtre publicitaire et thème du site ; crédits et documentation mis à jour.

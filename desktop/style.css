@@ -373,6 +373,8 @@ kbd {
 .page-panel {
   position: absolute;
   inset: 74px 0 26px;
+  transform-origin: center center;
+  will-change: opacity, transform;
   overflow: auto;
   padding: 35px 40px 50px;
   background: rgba(11, 12, 17, calc(var(--surface) - 0.18));
@@ -433,6 +435,8 @@ h2 {
 }
 .settings-content {
   max-width: 850px;
+  transform-origin: center center;
+  will-change: opacity, transform;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;

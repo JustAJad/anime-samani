@@ -45,7 +45,8 @@ let guideBusy = false,
   updateKey = '',
   guideOpen = false,
   guideIndex = 0,
-  transitionId = 0,
+  panelTransitionId = 0,
+  tabTransitionId = 0,
   previousFocus;
 const guideSteps = ['Welcome', 'Browse', 'Library', 'Appearance', 'Discord', 'Watch', 'Updates'];
 const t = key => state?.dictionary[key] || key;
@@ -141,19 +142,24 @@ function syncBackground() {
       .catch(() => {});
 }
 function animate(element, kind = 'in') {
-  if (state?.preferences.reducedMotion || !element) return Promise.resolve();
+  if (
+    state?.preferences.reducedMotion ||
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    !element
+  )
+    return Promise.resolve();
   return element
     .animate(
       kind === 'out'
         ? [
-            { opacity: 1, transform: 'translateY(0)' },
-            { opacity: 0, transform: 'translateY(8px)' },
+            { opacity: 1, transform: 'translateY(0) scale(1)' },
+            { opacity: 0, transform: 'translateY(-2px) scale(1.025)' },
           ]
         : [
-            { opacity: 0, transform: 'translateY(12px)' },
-            { opacity: 1, transform: 'translateY(0)' },
+            { opacity: 0, transform: 'translateY(4px) scale(.965)' },
+            { opacity: 1, transform: 'translateY(0) scale(1)' },
           ],
-      { duration: kind === 'out' ? 130 : 240, easing: 'cubic-bezier(.2,.8,.2,1)' }
+      { duration: kind === 'out' ? 130 : 260, easing: 'cubic-bezier(.1,.9,.2,1)' }
     )
     .finished.catch(() => {});
 }
@@ -418,9 +424,9 @@ function reportBounds() {
   api.bounds({ x: rect.x, y: rect.y, width: rect.width, height: rect.height });
 }
 async function setPanel(name = '') {
-  const id = ++transitionId;
+  const id = ++panelTransitionId;
   if (activePanel && activePanel !== name) await animate($(`#${activePanel}-panel`), 'out');
-  if (id !== transitionId) return;
+  if (id !== panelTransitionId) return;
   activePanel = name;
   quickOpen = false;
   $('#quick-overlay').hidden = true;
@@ -429,6 +435,14 @@ async function setPanel(name = '') {
   if (name === 'library') library();
   $('#favorite-button').hidden = !state.canFavorite || Boolean(name);
   $('#cinema-control').hidden = !state.canCinema || Boolean(name);
+}
+async function setTab(name) {
+  if (!name || name === currentTab) return;
+  const id = ++tabTransitionId;
+  await animate($(`#${currentTab}-tab`), 'out');
+  if (id !== tabTransitionId) return;
+  currentTab = name;
+  panels();
 }
 async function navigate(route) {
   await setPanel('');
@@ -522,13 +536,7 @@ $$('[data-action]').forEach(
     (button.onclick = () =>
       button.dataset.action === 'home' ? navigate('home') : call(api.action(button.dataset.action)))
 );
-$$('[data-tab]').forEach(
-  button =>
-    (button.onclick = () => {
-      currentTab = button.dataset.tab;
-      panels();
-    })
-);
+$$('[data-tab]').forEach(button => (button.onclick = () => setTab(button.dataset.tab)));
 $$('[data-pref]').forEach(input =>
   input.addEventListener('input', () => {
     const value =
