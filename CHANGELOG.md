@@ -2,9 +2,9 @@
 
 [日本語](CHANGELOG.ja.md)
 
-## 2.0.0
+## 1.2.0
 
-- Transitions de navigation retravaillées d’après le mouvement `DrillIn` utilisé par Lively Wallpaper.
+- Transitions de navigation retravaillées pour les panneaux et les onglets.
 - Démarrage stabilisé : les transitions attendent maintenant la fin de l’introduction et du premier rendu.
 - Icônes de navigation animées au survol et au clic, avec changement de page au milieu du mouvement, et boutons principaux plus fluides.
 - Respect automatique du réglage Windows de réduction des animations.

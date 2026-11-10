@@ -1,8 +1,8 @@
-# Anciennes versions / Older versions / 旧バージョン
+# Versions précédentes / Previous releases / 以前のリリース
 
 La version recommandée est toujours la [dernière version stable](https://github.com/JustAJad/anime-samani/releases/latest). Les versions ci-dessous restent disponibles pour l’historique et le dépannage, mais ne reçoivent plus de correctifs.
 
-The [latest stable release](https://github.com/JustAJad/anime-samani/releases/latest) is always recommended. Older versions remain available for history and troubleshooting, but no longer receive fixes.
+The [latest stable release](https://github.com/JustAJad/anime-samani/releases/latest) is always recommended. Previous releases remain available for history and troubleshooting, but no longer receive fixes.
 
 [最新の安定版](https://github.com/JustAJad/anime-samani/releases/latest)の利用を推奨します。以下の旧版は履歴・トラブルシューティング用で、修正は提供されません。
 

@@ -68,17 +68,15 @@ test('an existing release stays untouched unless the 1.1 rebuild is explicitly s
   assert.ok(!calls.some(args => args.includes('create') || args.includes('--force')));
 });
 
-test('a new V2 release becomes latest and archives earlier releases', () => {
+test('a new release becomes latest without renaming earlier releases', () => {
   const calls = run(undefined, {
-    version: '2.0.0',
+    version: '1.2.0',
     releases: [
       { tag_name: 'v1.1.0', id: 11, body: '1.1 notes' },
       { tag_name: 'v1.0.0', id: 10, body: '1.0 notes' },
     ],
   });
-  assert.ok(calls.some(args => args.includes('create') && args.includes('v2.0.0')));
+  assert.ok(calls.some(args => args.includes('create') && args.includes('v1.2.0')));
   assert.ok(calls.some(args => args.includes('edit') && args.includes('--latest')));
-  const archived = calls.filter(args => args[0] === 'api' && args.includes('PATCH'));
-  assert.equal(archived.length, 2);
-  assert.ok(archived.every(args => args.includes('make_latest=false')));
+  assert.ok(!calls.some(args => args[0] === 'api' && args.includes('PATCH')));
 });

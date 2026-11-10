@@ -7,13 +7,9 @@
 
 Anime Samani est un fork de l'application de [AlexAnimateMp4](https://github.com/AlexAnimateMp4/anime-sama-fr-desktop), qui te donne plus de fonctionnalités !
 
-## Anime Samani 2.0 est disponible !
+## Anime Samani 1.2 est disponible !
 
-Une navigation plus vivante inspirée du mouvement de Lively Wallpaper, des boutons
-et icônes plus fluides, un démarrage stabilisé et un logo net à toutes les tailles.
-Tes favoris, fonds personnalisés, domaines, reprises et réglages restent compatibles.
-
-[Liste complète des changements de la 2.0](docs/releases/2.0.0.md#français) · [Release et téléchargements](https://github.com/JustAJad/anime-samani/releases/tag/v2.0.0)
+[Liste complète des changements de la 1.2](docs/releases/1.2.0.md#français) · [Release et téléchargements](https://github.com/JustAJad/anime-samani/releases/tag/v1.2.0)
 
 ## Installation
 
@@ -25,10 +21,10 @@ Pour **Windows 10 ou 11, en 64 bits**. Dans les [téléchargements](https://gith
 
 Setup garde le nom `Anime-Samani-Setup-x64.exe` d’une version à l’autre ; Portable et ZIP portent leur numéro de version.
 
-La version actuelle est la **2.0**. Les téléchargements ne sont pas signés. Windows peut donc
+La version actuelle est la **1.2**. Les téléchargements ne sont pas signés. Windows peut donc
 afficher un avertissement. Le code source et les sommes SHA-256 sont aussi fournis.
 
-[Anciennes versions](docs/OLDER-VERSIONS.md#français)
+[Versions précédentes](docs/OLDER-VERSIONS.md#français)
 
 ## Ce qu’il y a dans l’app
 
