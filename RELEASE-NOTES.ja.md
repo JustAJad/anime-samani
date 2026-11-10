@@ -11,8 +11,6 @@
 - オリジンをまたぐリダイレクト時の認証情報漏えいを修正した `electron-updater` へ更新。
 - ナビゲーションの連続クリック競合を防止。
 
-以前のバージョンのお気に入り、再開履歴、カスタム背景、ドメイン、設定は保持されます。
-
 Windows 10 / 11 x64。実行ファイルは未署名のため、Windows が発行元不明の警告を表示する場合があります。
 
 [Just A Jad](https://github.com/JustAJad) が ❤️ を込めて制作。[AlexAnimateMp4](https://github.com/AlexAnimateMp4)、[raphael-as](https://github.com/raphael-as)、[Bourinou](https://github.com/Bourinou)、[Anime Sama チーム](https://anime-sama.to/) に感謝！ Discord：**justajade**。

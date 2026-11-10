@@ -13,8 +13,6 @@
 - Mise à jour d’`electron-updater` contre une fuite potentielle d’identifiants lors de redirections inter-origines.
 - Protection contre les clics de navigation concurrents.
 
-Les favoris, reprises, fonds personnalisés, domaines et préférences des versions précédentes sont conservés.
-
 ## English
 
 - New transitions for panels and settings tabs.
@@ -25,8 +23,6 @@ Les favoris, reprises, fonds personnalisés, domaines et préférences des versi
 - Windows reduced-motion preferences are respected.
 - `electron-updater` is patched against potential credential leakage across redirected origins.
 - Concurrent navigation clicks are safely blocked.
-
-Favorites, resume history, custom backgrounds, domains and preferences from previous versions are preserved.
 
 Windows 10/11 x64. Downloads are unsigned, so Windows may show an unknown-publisher warning.
 
