@@ -42,22 +42,35 @@ function compareVersions(left, right) {
   }
   return 0;
 }
+function downloadAsset(release, name) {
+  const asset = release.assets?.find(item => item.name === name);
+  if (!asset) throw new Error(`${tag} is missing ${name}`);
+  return gh(['api', '-H', 'Accept: application/octet-stream', asset.url]);
+}
+
 function publishedInfo(release) {
-  const asset = release.assets?.find(item => item.name === 'package-info.json');
-  if (!asset) throw new Error(`${tag} is missing package-info.json`);
-  return JSON.parse(gh(['api', '-H', 'Accept: application/octet-stream', asset.url]));
+  return JSON.parse(downloadAsset(release, 'package-info.json'));
+}
+
+function publishedManifestVersion(release) {
+  const match = downloadAsset(release, 'latest.yml').match(/^version:\s*([^\s]+)\s*$/m);
+  if (!match) throw new Error(`${tag} has invalid updater metadata`);
+  return match[1];
 }
 
 if (existing && !legacyRebuild) {
   const published = publishedInfo(existing);
-  if (published.version === pkg.version) {
+  const manifestVersion = publishedManifestVersion(existing);
+  if (published.version === pkg.version && manifestVersion === pkg.version) {
     console.log(`${tag} already carries internal build ${pkg.version}; downloads are unchanged.`);
     process.exit(0);
   }
   if (displayVersion(published.version) !== displayVersion(pkg.version))
     throw new Error(`Refusing to mix ${published.version} and ${pkg.version} in ${tag}.`);
-  if (compareVersions(pkg.version, published.version) <= 0)
+  if (compareVersions(pkg.version, published.version) < 0)
     throw new Error(`Rolling update ${pkg.version} must be newer than ${published.version}.`);
+  if (compareVersions(pkg.version, manifestVersion) <= 0)
+    throw new Error(`Updater metadata ${manifestVersion} must be older than ${pkg.version}.`);
 }
 
 if (existing) {
@@ -78,22 +91,6 @@ if (existing) {
     ],
     { stdio: 'inherit' }
   );
-
-  if (!legacyRebuild) {
-    gh(
-      [
-        'api',
-        '--method',
-        'PATCH',
-        `repos/${repository}/git/refs/tags/${tag}`,
-        '-f',
-        `sha=${commit}`,
-        '-F',
-        'force=true',
-      ],
-      { stdio: 'inherit' }
-    );
-  }
 
   gh(['release', 'upload', tag, manifest, '--repo', repository, '--clobber'], {
     stdio: 'inherit',

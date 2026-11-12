@@ -15,10 +15,14 @@ function run(rebuildVersion, options = {}) {
     {
       tag_name: tag,
       id: 11,
-      assets: [{ name: 'package-info.json', url: 'package-info-url' }],
+      assets: [
+        { name: 'package-info.json', url: 'package-info-url' },
+        { name: 'latest.yml', url: 'latest-yml-url' },
+      ],
     },
   ];
   const currentVersion = options.currentVersion || version;
+  const manifestVersion = options.manifestVersion || currentVersion;
   const publishedAssets =
     options.publishedAssets || releases.find(release => release.tag_name === tag)?.assets || [];
   const writes = [];
@@ -33,9 +37,10 @@ function run(rebuildVersion, options = {}) {
               if (args[0] === 'api' && args[1]?.includes('/releases?')) {
                 return JSON.stringify(releases);
               }
-              if (args.includes('Accept: application/octet-stream')) {
+              if (args.includes('package-info-url')) {
                 return JSON.stringify({ version: currentVersion });
               }
+              if (args.includes('latest-yml-url')) return `version: ${manifestVersion}\n`;
               if (args[0] === 'api' && args[1]?.includes('/assets?')) {
                 return JSON.stringify(publishedAssets);
               }
@@ -101,7 +106,10 @@ test('a newer internal patch safely refreshes the existing public minor release'
       {
         tag_name: 'v1.2.0',
         id: 12,
-        assets: [{ name: 'package-info.json', url: 'package-info-url' }],
+        assets: [
+          { name: 'package-info.json', url: 'package-info-url' },
+          { name: 'latest.yml', url: 'latest-yml-url' },
+        ],
       },
     ],
     publishedAssets: [
@@ -116,12 +124,6 @@ test('a newer internal patch safely refreshes the existing public minor release'
   assert.ok(!uploads[0].includes(path.join('release-assets', 'latest.yml')));
   assert.ok(uploads[1].includes(path.join('release-assets', 'latest.yml')));
 
-  const tagUpdate = calls.find(
-    args => args[0] === 'api' && args.includes('repos/JustAJad/anime-samani/git/refs/tags/v1.2.0')
-  );
-  assert.ok(tagUpdate);
-  assert.ok(tagUpdate.includes('sha=new-source'));
-
   const edit = calls.find(args => args[0] === 'release' && args[1] === 'edit');
   assert.ok(edit.includes('Anime Samani 1.2'));
   assert.ok(edit.includes('--latest'));
@@ -131,6 +133,15 @@ test('a newer internal patch safely refreshes the existing public minor release'
   );
   assert.ok(deletion);
   assert.ok(!calls.some(args => args.includes('create')));
+});
+
+test('a partial upload resumes when the manifest still advertises the older build', () => {
+  const calls = run(undefined, {
+    version: '1.2.1',
+    currentVersion: '1.2.1',
+    manifestVersion: '1.2.0',
+  });
+  assert.equal(calls.filter(args => args[0] === 'release' && args[1] === 'upload').length, 2);
 });
 
 test('a new minor line creates a new public release', () => {
