@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 
 root = Path(__file__).resolve().parents[1]
@@ -43,21 +43,35 @@ logo.alpha_composite(
 )
 logo.save(branding / "app-mark.png", optimize=True)
 
-# Windows can place the icon on very light installer dialogs. Keep the original
-# mark colors, but give the icon its own dark field so the pale outline never
-# disappears into the surrounding window.
-windows_icon = canvas((1024, 1024)).convert("RGBA")
-icon_mask = Image.new("L", windows_icon.size, 0)
-ImageDraw.Draw(icon_mask).rounded_rectangle((32, 32, 992, 992), radius=220, fill=255)
-windows_icon.putalpha(icon_mask)
+# The Setup executable, installed app and shortcuts share this transparent icon.
+# A restrained white-to-pink glow follows the exact supplied silhouette, so the
+# pale edge remains readable without introducing a different dark tile variant.
+windows_icon = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
 icon_mark = fit(mark, (760, 760))
+icon_position = (
+    (windows_icon.width - icon_mark.width) // 2,
+    (windows_icon.height - icon_mark.height) // 2,
+)
+icon_alpha = Image.new("L", windows_icon.size, 0)
+icon_alpha.paste(icon_mark.getchannel("A"), icon_position)
+glow_alpha = icon_alpha.filter(ImageFilter.GaussianBlur(12)).point(
+    lambda alpha: round(alpha * 0.24)
+)
+glow = Image.new("RGBA", windows_icon.size)
+glow_pixels = glow.load()
+for y in range(glow.height):
+    progress = y / (glow.height - 1)
+    green = round(252 + (143 - 252) * progress)
+    blue = round(252 + (157 - 252) * progress)
+    for x in range(glow.width):
+        glow_pixels[x, y] = (255, green, blue, 255)
+glow.putalpha(glow_alpha)
+windows_icon.alpha_composite(glow)
 windows_icon.alpha_composite(
     icon_mark,
-    (
-        (windows_icon.width - icon_mark.width) // 2,
-        (windows_icon.height - icon_mark.height) // 2,
-    ),
+    icon_position,
 )
+windows_icon.save(branding / "app-icon-mark.png", optimize=True)
 windows_icon.save(root / "icon.png", optimize=True)
 windows_icon.save(
     root / "icon.ico",

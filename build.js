@@ -38,6 +38,7 @@ builder
       },
       portable: { artifactName: `Anime-Samani-${publicVersion}-Portable-\${arch}.\${ext}` },
       nsis: {
+        include: 'build/installer.nsh',
         uninstallDisplayName: 'Anime Samani',
         oneClick: false,
         installerHeader: 'assets/installer/header.bmp',

@@ -42,6 +42,7 @@ test('packaging keeps Setup stable while Portable and ZIP remain versioned', () 
     console,
   });
   assert.equal(config.nsis.artifactName, 'Anime-Samani-Setup-${arch}.${ext}');
+  assert.equal(config.nsis.include, 'build/installer.nsh');
   assert.equal(config.portable.artifactName, 'Anime-Samani-1.2-Portable-${arch}.${ext}');
   assert.equal(config.win.artifactName, 'Anime-Samani-1.2-Windows-${arch}.${ext}');
 });
@@ -68,9 +69,18 @@ test('Windows registration uses the plain app name and Just A Jad with lossless 
     process: { argv: ['--installer'] },
     console,
   });
-  assert.equal(pkg.version, '1.2.1');
+  assert.equal(pkg.version, '1.2.2');
   assert.equal(pkg.author.name, 'Just A Jad');
   assert.equal(config.nsis.uninstallDisplayName, 'Anime Samani');
   assert.equal(config.compression, 'maximum');
   assert.equal(config.electronLanguages, undefined, 'all Chromium locales are retained');
+});
+
+test('the assisted installer uses concise update wording and keeps its path on a new line', () => {
+  const { readFileSync } = require('node:fs');
+  const include = readFileSync('build/installer.nsh', 'utf8');
+  assert.match(include, /L’assistant va mettre à jour l'application\./);
+  assert.match(include, /perUserInstallExists 1036 .*\$\\r\$\\n/);
+  assert.match(include, /The wizard will update the application\./);
+  assert.match(include, /ウィザードがアプリケーションを更新します。/);
 });
