@@ -126,7 +126,9 @@ test('a newer internal patch safely refreshes the existing public minor release'
   assert.ok(edit.includes('Anime Samani 1.2'));
   assert.ok(edit.includes('--latest'));
 
-  const deletion = calls.find(args => args.includes('repos/JustAJad/anime-samani/releases/assets/99'));
+  const deletion = calls.find(args =>
+    args.includes('repos/JustAJad/anime-samani/releases/assets/99')
+  );
   assert.ok(deletion);
   assert.ok(!calls.some(args => args.includes('create')));
 });

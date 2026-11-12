@@ -374,11 +374,7 @@ function render(next) {
       ? state.page.image
       : '../assets/branding/app-mark.png';
   $('#page-title').textContent = state.page.title || state.domain;
-  $('#page-status').textContent = state.error
-    ? t('errorTitle')
-    : state.loading
-      ? t('loading')
-      : '';
+  $('#page-status').textContent = state.error ? t('errorTitle') : state.loading ? t('loading') : '';
   $('#play-status').textContent = state.page.playing ? '● ' + t('nowPlaying') : '';
   $('#progress').classList.toggle('loading', state.loading && !state.error);
   const showId = state.page.url.split('/').filter(Boolean)[3];

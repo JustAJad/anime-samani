@@ -11,12 +11,10 @@ const commit = process.env.GITHUB_SHA;
 if (!repository || !commit) throw new Error('Run releases through the Windows build workflow.');
 
 const tag = releaseTag(pkg.version);
-const gh = (args, options = {}) =>
-  execFileSync('gh', args, { encoding: 'utf8', ...options });
+const gh = (args, options = {}) => execFileSync('gh', args, { encoding: 'utf8', ...options });
 const releases = JSON.parse(gh(['api', `repos/${repository}/releases?per_page=100`]));
 const existing = releases.find(release => release.tag_name === tag);
-const legacyRebuild =
-  process.env.SAMANI_REBUILD_VERSION === '1.1.0' && pkg.version === '1.1.0';
+const legacyRebuild = process.env.SAMANI_REBUILD_VERSION === '1.1.0' && pkg.version === '1.1.0';
 if (process.env.SAMANI_REBUILD_VERSION && !legacyRebuild)
   throw new Error('Only the explicitly requested 1.1.0 rebuild is supported.');
 
@@ -47,9 +45,7 @@ function compareVersions(left, right) {
 function publishedInfo(release) {
   const asset = release.assets?.find(item => item.name === 'package-info.json');
   if (!asset) throw new Error(`${tag} is missing package-info.json`);
-  return JSON.parse(
-    gh(['api', '-H', 'Accept: application/octet-stream', asset.url])
-  );
+  return JSON.parse(gh(['api', '-H', 'Accept: application/octet-stream', asset.url]));
 }
 
 if (existing && !legacyRebuild) {
@@ -65,7 +61,8 @@ if (existing && !legacyRebuild) {
 }
 
 if (existing) {
-  if (repository !== 'JustAJad/anime-samani') throw new Error('Unexpected rolling-release repository');
+  if (repository !== 'JustAJad/anime-samani')
+    throw new Error('Unexpected rolling-release repository');
 
   // Upload payloads first. latest.yml is uploaded last so installed apps cannot
   // discover the new internal build before its matching installer is available.
@@ -119,13 +116,14 @@ if (existing) {
 
   if (!legacyRebuild) {
     const wanted = new Set(files.map(file => basename(file)));
-    const assets = JSON.parse(gh(['api', `repos/${repository}/releases/${existing.id}/assets?per_page=100`]));
+    const assets = JSON.parse(
+      gh(['api', `repos/${repository}/releases/${existing.id}/assets?per_page=100`])
+    );
     for (const asset of assets) {
       if (wanted.has(asset.name)) continue;
-      gh(
-        ['api', '--method', 'DELETE', `repos/${repository}/releases/assets/${asset.id}`],
-        { stdio: 'inherit' }
-      );
+      gh(['api', '--method', 'DELETE', `repos/${repository}/releases/assets/${asset.id}`], {
+        stdio: 'inherit',
+      });
     }
   }
 
