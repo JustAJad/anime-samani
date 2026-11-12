@@ -19,10 +19,8 @@ For **64-bit Windows 10 or 11**. Open [Releases](https://github.com/JustAJad/ani
 - **Portable** to run it without installing.
 - **Windows.zip** to extract everything yourself and open `ANIME_SAMANI.exe`.
 
-Setup keeps the filename `Anime-Samani-Setup-x64.exe` across releases; Portable and ZIP include their version number.
-
-The current version is **1.2**. Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
-Source code and SHA-256 checksums are included too.
+*Downloads are unsigned, so Windows may show you a SmartScreen or UAC unknown publisher warning.
+Source code and **SHA-256** checksums are included too.*
 
 [Previous releases](docs/OLDER-VERSIONS.md#english)
 
