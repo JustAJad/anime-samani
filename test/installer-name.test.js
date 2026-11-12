@@ -33,13 +33,17 @@ test('packaging keeps Setup stable while Portable and ZIP remain versioned', () 
     },
   };
   vm.runInNewContext(readFileSync(require.resolve('../build'), 'utf8'), {
-    require: name => (name === 'electron-builder' ? builder : require('../package.json')),
+    require: name => {
+      if (name === 'electron-builder') return builder;
+      if (name === './lib/version') return require('../lib/version');
+      return require('../package.json');
+    },
     process: { argv: ['--installer'] },
     console,
   });
   assert.equal(config.nsis.artifactName, 'Anime-Samani-Setup-${arch}.${ext}');
-  assert.ok(config.portable.artifactName.includes('${version}'));
-  assert.ok(config.win.artifactName.includes('${version}'));
+  assert.equal(config.portable.artifactName, 'Anime-Samani-1.2-Portable-${arch}.${ext}');
+  assert.equal(config.win.artifactName, 'Anime-Samani-1.2-Windows-${arch}.${ext}');
 });
 
 test('Windows registration uses the plain app name and Just A Jad with lossless packaging', () => {
@@ -56,11 +60,15 @@ test('Windows registration uses the plain app name and Just A Jad with lossless 
     },
   };
   vm.runInNewContext(readFileSync(require.resolve('../build'), 'utf8'), {
-    require: name => (name === 'electron-builder' ? builder : pkg),
+    require: name => {
+      if (name === 'electron-builder') return builder;
+      if (name === './lib/version') return require('../lib/version');
+      return pkg;
+    },
     process: { argv: ['--installer'] },
     console,
   });
-  assert.equal(pkg.version, '1.2.0');
+  assert.equal(pkg.version, '1.2.1');
   assert.equal(pkg.author.name, 'Just A Jad');
   assert.equal(config.nsis.uninstallDisplayName, 'Anime Samani');
   assert.equal(config.compression, 'maximum');

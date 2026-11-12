@@ -5,7 +5,7 @@ const { tmpdir } = require('node:os');
 const { join } = require('node:path');
 const { createMediaStore, MEDIA_ID } = require('../lib/media');
 const { createProgress } = require('../lib/progress');
-const { displayVersion } = require('../lib/version');
+const { displayVersion, releaseTag } = require('../lib/version');
 const { cleanText } = require('../lib/text');
 
 test('media store copies valid backgrounds and keeps only the active one', t => {
@@ -70,8 +70,9 @@ test('playback progress keeps the most recent episodes only', () => {
 test('version labels and page text helpers', () => {
   assert.equal(displayVersion('1.0.0'), '1.0');
   assert.equal(displayVersion('1.2.0'), '1.2');
-  assert.equal(displayVersion('1.2.3'), '1.2.3');
-  assert.equal(displayVersion('10.0.0-beta'), '10.0.0-beta');
+  assert.equal(displayVersion('1.2.3'), '1.2');
+  assert.equal(displayVersion('10.0.0-beta'), '10.0-beta');
+  assert.equal(releaseTag('1.2.9'), 'v1.2.0');
   assert.equal(cleanText('a\u0000b\nc\u007fd', 10), 'abcd');
   assert.equal(cleanText(null, 5), '');
   assert.equal(cleanText('abcdef', 3), 'abc');

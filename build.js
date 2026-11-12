@@ -2,7 +2,9 @@
 // Windows packaging and executable metadata editing also work from Linux.
 const builder = require('electron-builder');
 const pkg = require('./package.json');
+const { displayVersion } = require('./lib/version');
 const installer = process.argv.includes('--installer');
+const publicVersion = displayVersion(pkg.version);
 builder
   .build({
     targets: builder.Platform.WINDOWS.createTarget(
@@ -32,9 +34,9 @@ builder
         signAndEditExecutable: true,
         signExecutable: false,
         verifyUpdateCodeSignature: false,
-        artifactName: 'Anime-Samani-${version}-Windows-${arch}.${ext}',
+        artifactName: `Anime-Samani-${publicVersion}-Windows-\${arch}.\${ext}`,
       },
-      portable: { artifactName: 'Anime-Samani-${version}-Portable-${arch}.${ext}' },
+      portable: { artifactName: `Anime-Samani-${publicVersion}-Portable-\${arch}.\${ext}` },
       nsis: {
         uninstallDisplayName: 'Anime Samani',
         oneClick: false,

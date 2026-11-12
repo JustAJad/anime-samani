@@ -56,10 +56,10 @@ jobs:
           New-Item -ItemType Directory -Force release-assets | Out-Null
           Copy-Item dist/*.exe,dist/*.zip,dist/*.yml,dist/*.blockmap release-assets/
           Copy-Item NOTICE.md,LICENSE,CREDITS.md,RELEASE-NOTES.md release-assets/
-          $appVersion = (Get-Content package.json | ConvertFrom-Json).version
+          $publicVersion = node -e "process.stdout.write(require('./lib/version').displayVersion(require('./package.json').version))"
           node scripts/source.cjs
           node scripts/size-report.cjs
-          python -c "import subprocess,zipfile; from pathlib import Path; z=zipfile.ZipFile('release-assets/Anime-Samani-$appVersion-Source.zip','w',zipfile.ZIP_DEFLATED); [z.write(p,'anime-samani-$appVersion/'+p) for p in subprocess.check_output(['git','ls-files'],text=True).splitlines() if Path(p).is_file()]; z.close()"
+          python -c "import subprocess,sys,zipfile; from pathlib import Path; archive,version=sys.argv[1:]; z=zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED); [z.write(p,'anime-samani-'+version+'/'+p) for p in subprocess.check_output(['git','ls-files'],text=True).splitlines() if Path(p).is_file()]; z.close()" "release-assets/Anime-Samani-$publicVersion-Source.zip" $publicVersion
           if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
           Get-ChildItem release-assets -File | Sort-Object Name | ForEach-Object {
             $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
