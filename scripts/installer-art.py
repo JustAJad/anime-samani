@@ -42,8 +42,24 @@ logo.alpha_composite(
     ((logo.width - clean_mark.width) // 2, (logo.height - clean_mark.height) // 2),
 )
 logo.save(branding / "app-mark.png", optimize=True)
-logo.save(root / "icon.png", optimize=True)
-logo.save(
+
+# Windows can place the icon on very light installer dialogs. Keep the original
+# mark colors, but give the icon its own dark field so the pale outline never
+# disappears into the surrounding window.
+windows_icon = canvas((1024, 1024)).convert("RGBA")
+icon_mask = Image.new("L", windows_icon.size, 0)
+ImageDraw.Draw(icon_mask).rounded_rectangle((32, 32, 992, 992), radius=220, fill=255)
+windows_icon.putalpha(icon_mask)
+icon_mark = fit(mark, (760, 760))
+windows_icon.alpha_composite(
+    icon_mark,
+    (
+        (windows_icon.width - icon_mark.width) // 2,
+        (windows_icon.height - icon_mark.height) // 2,
+    ),
+)
+windows_icon.save(root / "icon.png", optimize=True)
+windows_icon.save(
     root / "icon.ico",
     sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
 )
@@ -58,17 +74,25 @@ scale = 4
 header = canvas((150 * scale, 57 * scale)).convert("RGBA")
 draw = ImageDraw.Draw(header)
 header_mark = fit(mark, (49 * scale, 49 * scale))
-header.alpha_composite(header_mark, (3 * scale, 4 * scale))
+anime_font = ImageFont.truetype(str(font_path), 10 * scale)
+samani_font = ImageFont.truetype(str(font_path), 14 * scale)
+anime_box = draw.textbbox((0, 0), "ANIME", font=anime_font)
+samani_box = draw.textbbox((0, 0), "SAMANI", font=samani_font)
+word_width = max(anime_box[2] - anime_box[0], samani_box[2] - samani_box[0])
+group_width = header_mark.width + 6 * scale + word_width
+group_x = (header.width - group_width) // 2
+word_x = group_x + header_mark.width + 6 * scale
+header.alpha_composite(header_mark, (group_x, 4 * scale))
 draw.text(
-    (58 * scale, 11 * scale),
+    (word_x, 11 * scale),
     "ANIME",
-    font=ImageFont.truetype(str(font_path), 10 * scale),
+    font=anime_font,
     fill="#fff5ef",
 )
 draw.text(
-    (58 * scale, 26 * scale),
+    (word_x, 26 * scale),
     "SAMANI",
-    font=ImageFont.truetype(str(font_path), 14 * scale),
+    font=samani_font,
     fill="#ffb5b9",
 )
 header.resize((150, 57), Image.Resampling.LANCZOS).convert("RGB").save(
