@@ -141,11 +141,12 @@ test('disabled or unconfigured Discord never attempts to open a socket', () => {
 
 test('browsing session clock is preserved and playback countdown uses actual position', () => {
   const repo = 'https://github.com/JustAJad/anime-samani';
-  for (const url of ['https://anime-sama.to/', 'https://anime-sama.to/planning/'])
-    assert.equal(
-      buildActivity({ url, playing: false }, defaults, 1234, repo).timestamps.start,
-      1234
-    );
+  for (const url of ['https://anime-sama.to/', 'https://anime-sama.to/planning/']) {
+    const browsing = buildActivity({ url, playing: false }, defaults, 1234, repo);
+    assert.equal(browsing.timestamps.start, 1234);
+    assert.equal(browsing.type, 3);
+    assert.equal(browsing.state, undefined);
+  }
   const a = buildActivity(
     {
       url: 'https://anime-sama.to/catalogue/test/',

@@ -1230,12 +1230,18 @@ input[type='range'] {
 .rpc-pill span:last-child {
   line-height: 1.5;
 }
-.sidebar-bottom .credits-link {
+.sidebar-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sidebar-bottom .credits-link,
+.sidebar-bottom .footer-version {
   padding: 9px 0;
 }
-.statusbar .footer-version {
-  margin-left: 0;
-  margin-right: auto;
+.sidebar-bottom .footer-version {
+  border: 0;
+  background: none;
   font-size: 10px;
   color: var(--muted);
 }
@@ -1262,7 +1268,8 @@ input[type='range'] {
 .sidebar-collapsed .quick-trigger > span:not(:first-child),
 .sidebar-collapsed .quick-trigger kbd,
 .sidebar-collapsed #rpc-sidebar-status,
-.sidebar-collapsed .credits-link {
+.sidebar-collapsed .credits-link,
+.sidebar-collapsed .footer-version {
   display: none;
 }
 .sidebar-collapsed .sidebar nav button {

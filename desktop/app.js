@@ -214,21 +214,15 @@ function preferences() {
       season: p.rpcShowEpisode ? page.season : '',
       language: page.language,
     };
-  $('#rpc-preview-title').textContent =
-    page.playing || page.duration > 0 || page.hasPlayback ? values.title : t('browsing');
-  $('#rpc-preview-state').textContent = [
-    page.playing
-      ? t('playing')
-      : page.duration > 0 || page.hasPlayback
-        ? t('paused')
-        : t('browsing'),
-    values.season,
-    values.episode,
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  const hasPlayback = page.playing || page.duration > 0 || page.hasPlayback;
+  $('#rpc-preview-title').textContent = hasPlayback ? values.title : t('browsing');
+  $('#rpc-preview-state').textContent = hasPlayback
+    ? [page.playing ? t('playing') : t('paused'), values.season, values.episode]
+        .filter(Boolean)
+        .join(' · ')
+    : '';
   const small = $('#rpc-preview-icon');
-  small.hidden = !(page.playing || page.duration > 0 || page.hasPlayback);
+  small.hidden = !hasPlayback;
   small.src = '../assets/branding/rpc-' + (page.playing ? 'play' : 'pause') + '.png';
 }
 function library() {
@@ -384,7 +378,7 @@ function render(next) {
     ? t('errorTitle')
     : state.loading
       ? t('loading')
-      : t('ready');
+      : '';
   $('#play-status').textContent = state.page.playing ? '● ' + t('nowPlaying') : '';
   $('#progress').classList.toggle('loading', state.loading && !state.error);
   const showId = state.page.url.split('/').filter(Boolean)[3];
