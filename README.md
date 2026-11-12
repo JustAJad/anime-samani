@@ -19,10 +19,8 @@ Pour **Windows 10 ou 11, en 64 bits**. Dans les [téléchargements](https://gith
 - **Portable** pour la lancer sans installation.
 - **Windows.zip** pour tout extraire toi-même, puis ouvrir `ANIME_SAMANI.exe`.
 
-Setup garde le nom `Anime-Samani-Setup-x64.exe` d’une version à l’autre ; Portable et ZIP portent leur numéro de version.
-
-La version actuelle est la **1.2**. Les téléchargements ne sont pas signés. Windows peut donc
-afficher un avertissement. Le code source et les sommes SHA-256 sont aussi fournis.
+*Les téléchargements ne sont pas signés. Windows peut donc
+afficher un avertissement. Le code source et les sommes **SHA-256** sont aussi fournis.*
 
 [Versions précédentes](docs/OLDER-VERSIONS.md#français)
 
